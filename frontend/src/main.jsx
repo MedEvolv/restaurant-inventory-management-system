@@ -1,16 +1,10 @@
 import React from 'react'
 import ReactDOM from 'react-dom/client'
-import App from './App'
-import './index.css'
-import { AuthProvider } from './context/AuthContext'
-import { ToastProvider } from './context/ToastContext'
+import App from './prep/PrepApp'
+import './prep.css'
 
 ReactDOM.createRoot(document.getElementById('root')).render(
   <React.StrictMode>
-    <AuthProvider>
-      <ToastProvider>
-        <App />
-      </ToastProvider>
-    </AuthProvider>
+    <App />
   </React.StrictMode>
 )

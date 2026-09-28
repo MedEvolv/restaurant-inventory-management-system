@@ -1,178 +1,105 @@
-<div align="center">
-  <img src="assets/logo.svg" alt="RestaurantIQ Logo" width="180">
+# Tomorrow's Prep & Purchase
 
-  <h1>RestaurantIQ</h1>
-  <p><b>Enterprise-Grade Restaurant Inventory Management System</b></p>
-  <p><em>Automated expiry tracking, dynamic cost calculations, and immutable audit trails.</em></p>
+A hostel kitchen manager can turn tomorrow's planned meals and recorded stock into a purchase draft they can check and adjust.
 
-  <div>
-    <img src="https://img.shields.io/badge/React-18-00d8ff?style=for-the-badge&logo=react&logoColor=white" alt="React 18" />
-    <img src="https://img.shields.io/badge/Spring_Boot-3.2-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot 3.x" />
-    <img src="https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21" />
-    <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL 8.0" />
-    <br/>
-    <img src="https://img.shields.io/badge/Deployed_on-Vercel-000000?style=for-the-badge&logo=vercel&logoColor=white" alt="Vercel" />
-    <img src="https://img.shields.io/badge/Deployed_on-Railway-131415?style=for-the-badge&logo=railway&logoColor=white" alt="Railway" />
-  </div>
-</div>
+This is a local Group 1 capstone MVP. All kitchen names, quantities, manager notes and outcomes are fictional. No waste reduction, savings or interview findings have been measured. **No LLM API, AI subscription, API key or external food-guidance service is needed.** Calculations use Java `BigDecimal`; guidance is written by the manager.
 
----
+Adapted from [RestaurantIQ](https://github.com/Balakrishna-kini/restaurant-inventory-management-system), MIT, Copyright (c) 2026 Balakrishna Kini. The original [LICENSE](LICENSE) remains intact. See [ATTRIBUTION.md](ATTRIBUTION.md) for copied and new work.
 
-## 🔗 Quick Links
+## Local demo
 
-| Resource | URL |
-|----------|-----|
-| 🌐 **Live Application** | [RestaurantIQ Vercel App](https://restaurant-inventory-management-sys-six.vercel.app) |
-| 🔌 **Backend API** | [Railway Production API](https://restaurant-inventory-management-system-production.up.railway.app/api/dashboard/summary) |
-| 📂 **Repository** | [GitHub Source Code](https://github.com/Balakrishna-kini/restaurant-inventory-management-system) |
-| 🎥 **Demo Video** | [Watch Demo Video](https://drive.google.com/file/d/1l2y3hDvwjL5MZ1dOPd_0mFalt7hMsABu/view?usp=sharing) |
+Verified checkout: `C:\ArchLife-Systems\group1-prep-purchase`, branch `codex/group1-prep-purchase`. Open **http://127.0.0.1:3016** while the app is running. Backend: `127.0.0.1:8086`; isolated MySQL: `127.0.0.1:3316`. The source mirror is in the capstone project's `prototypes/prep-purchase-src` folder. This is a standalone local Git fork retaining upstream history; nothing has been pushed or deployed.
 
----
+On the already prepared Windows machine:
 
-## 🎯 Executive Summary
-
-**RestaurantIQ** bridges the gap between simple CRUD operations and real-world financial tracking. Designed to solve critical restaurant logistics, it eliminates manual stock errors, automates expiry warnings, and introduces dynamic **Weighted Average Costing (WAC)** to ensure completely accurate inventory valuation.
-
----
-
-## ✨ Feature Matrix
-
-| Category | Key Features | Capabilities |
-|----------|-------------|--------------|
-| 📊 **Analytics** | Dashboard & KPIs | Real-time valuation, low-stock alerts, out-of-stock monitoring, trend visualization. |
-| 📦 **Inventory** | Core Management | Add/Edit/Delete items, granular unit tracking, active category filtering. |
-| 🛒 **Procurement** | Purchase Orders | End-to-end PO lifecycle, automated stock increment upon receipt. |
-| 💰 **Financials** | Dynamic WAC | Automatic recalculation of unit prices when receiving new stock at different price points. |
-| ⏳ **Health** | Expiry Tracking | Automated timezone-aware categorization (Fresh, Expiring Soon, Expires Today, Expired). |
-| 📜 **Auditing** | Immutable Logs | Comprehensive historical ledger tracking every addition, reduction, and manual adjustment. |
-
----
-
-## 🏗️ System Architecture
-
-RestaurantIQ utilizes a decoupled **DTO (Data Transfer Object)** architecture to ensure strict separation of concerns between database entities and client-facing REST APIs.
-
-```mermaid
-graph TD
-    Client["Client-Side<br/><b>React & Vite SPA</b>"]
-    Controller["API Gateway<br/><b>Spring REST Controllers</b>"]
-    Mapper["DTO Mapping<br/><b>Service Layer & Mapper</b>"]
-    DB[("Relational DB<br/><b>MySQL 8.0</b>")]
-
-    Client -- HTTP / JSON --> Controller
-    Controller -- DTOs --> Mapper
-    Mapper -- Entities / JPA --> DB
-    
-    classDef frontend fill:#00d8ff,stroke:#000,stroke-width:2px,color:#000;
-    classDef backend fill:#6DB33F,stroke:#000,stroke-width:2px,color:#fff;
-    classDef database fill:#4479A1,stroke:#000,stroke-width:2px,color:#fff;
-    
-    class Client frontend;
-    class Controller,Mapper backend;
-    class DB database;
+```powershell
+cd C:\ArchLife-Systems\group1-prep-purchase
+.\scripts\start-local.ps1
+.\scripts\reset-demo.ps1 -Mode explore
 ```
 
----
+If the app is already running, open it; the launcher refuses occupied app ports. `stop-local.ps1` stops only app processes recorded by the launcher and leaves MySQL data in place. Use `reset-demo.ps1 -Mode walkthrough` for the 3–5 minute [DEMO_SCRIPT.md](DEMO_SCRIPT.md). The interface also exposes **Reset fictional kitchen**, with an explicit typed confirmation.
 
-## 📸 Visual Showcase
+## Fresh checkout setup
 
-<table>
-  <tr>
-    <td width="50%">
-      <b>1. Analytics Dashboard</b><br/>
-      <img src="https://github.com/user-attachments/assets/586273a8-7c15-4f64-9249-7f5808702864" alt="Dashboard" />
-    </td>
-    <td width="50%">
-      <b>2. Inventory Management</b><br/>
-      <img src="https://github.com/user-attachments/assets/2687f7f1-bc80-41be-8540-9c688c5a2fa4" alt="Inventory Management" />
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <b>3. Purchase Orders Workflow</b><br/>
-      <img src="https://github.com/user-attachments/assets/1e095b89-9b56-41d5-b81f-7bf6f91adbf5" alt="Purchase Orders" />
-    </td>
-    <td width="50%">
-      <b>4. Immutable Audit History</b><br/>
-      <img src="https://github.com/user-attachments/assets/de9d4ca7-d984-4a51-89e2-20dbf168bfa6" alt="Inventory History" />
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <b>5. Category Management</b><br/>
-      <img src="https://github.com/user-attachments/assets/9f7ad821-d60a-4cd3-bc0c-a88b3f29cfe5" alt="Categories" />
-    </td>
-    <td width="50%">
-      <b>6. Supplier Directory</b><br/>
-      <img src="https://github.com/user-attachments/assets/5b2e1382-bc36-49ca-9850-2dd05c3d0224" alt="Suppliers" />
-    </td>
-  </tr>
-  <tr>
-    <td width="50%">
-      <b>7. Exportable Reports</b><br/>
-      <img src="https://github.com/user-attachments/assets/0a769dd6-3517-492f-bf29-fed6d59a74a7" alt="Reports" />
-    </td>
-    <td width="50%">
-      <b>8. Authentication</b><br/>
-      <img src="https://github.com/user-attachments/assets/d36b259a-71f2-40b8-839f-b358617f2a11" alt="Login" />
-    </td>
-  </tr>
-</table>
+Prerequisites: Java 21 JDK (`JAVA_HOME`), Node 24+, npm, MySQL 8.4, PowerShell for the optional Windows helpers. Maven is provided by the committed wrapper. The frontend lockfile is committed; install with `npm ci`.
 
----
+1. Start MySQL on local port 3316. With a working Docker engine, the optional configuration is:
 
-## 🛠️ Technology Stack
+   ```powershell
+   docker compose up -d db
+   ```
 
-| Domain | Technologies Used |
-|--------|-------------------|
-| **Frontend** | React 18, Vite, React Router DOM, Recharts, Axios |
-| **Backend** | Java 21, Spring Boot 3.x, Spring Data JPA, Hibernate |
-| **Database** | MySQL 8.0 |
-| **Deployment**| Vercel (Frontend edge network), Railway (Backend & DB) |
+   The Compose configuration was validated. Docker runtime execution was unavailable on the build machine; the verified runtime uses official portable MySQL 8.4.11. For an existing MySQL server, execute `scripts/init-demo.sql` as its administrator. It creates **separate** `prep_demo` and `prep_test` databases and grants the fictional `prep` user access to only those databases. Use a disposable local server; the sample credentials are intentionally public demo placeholders.
 
----
+2. In the repository, install and launch:
 
-## ⚙️ Local Setup Instructions
+   ```powershell
+   .\scripts\start-local.ps1 -InstallDependencies
+   .\scripts\reset-demo.ps1 -Mode explore
+   ```
 
-### Prerequisites
-* **Java 21**
-* **Node.js 18+**
-* **MySQL 8.0+**
-* **Maven**
+   The prepared checkout includes ignored `.tools` runtimes. A fresh clone does not include JDK/MySQL binaries or database files; provide the prerequisites above.
 
-### 1. Database Initialization
-Create a new local MySQL database:
-```sql
-CREATE DATABASE restaurant_inventory;
-```
+Alternatively, run in two terminals:
 
-### 2. Backend Startup
-Configure your local database credentials in `backend/src/main/resources/application.properties`, then run:
-```bash
+```powershell
 cd backend
-mvn spring-boot:run
+# JAVA_HOME must point to Java 21; add its bin directory to this terminal's PATH.
+.\mvnw.cmd spring-boot:run '-Dspring-boot.run.profiles=local'
 ```
 
-### 3. Frontend Startup
-In a separate terminal window, initialize the Vite dev server:
-```bash
+```powershell
 cd frontend
-npm install
-npm run dev
+npm ci
+npm run dev -- --host 127.0.0.1
 ```
 
----
+Connection overrides: `PREP_DB_URL`, `PREP_DB_USER`, `PREP_DB_PASSWORD`. Tests use `PREP_TEST_DB_URL`. Defaults connect to the isolated local demo/test databases. Keep actual credentials out of Git. Dates and timestamps use kitchen time, Asia/Kolkata.
 
-## 📚 Additional Documentation
+## Verification commands
 
-* [**Backend API Documentation**](backend/README.md) - Deep dive into the Spring Boot architecture, WAC algorithm, and REST endpoints.
+With MySQL running:
 
----
+```powershell
+cd backend
+.\mvnw.cmd test
+.\mvnw.cmd -DskipTests package
+```
 
-## 👨‍💻 Author
+With the app running:
 
-**Balakrishna Kini**
+```powershell
+cd frontend
+npm ci
+npm run test -- --run
+npm run lint
+npm run build
+npm audit --audit-level=low
+npx playwright install chromium
+npm run test:e2e
+```
 
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/balakrishna-kini)
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Balakrishna-kini)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:balakrishnakini22@gmail.com)
+Browser tests use the **demo** database and reset only registered fictional kitchen records. Backend HTTP tests use the **test** database. Browser projects run sequentially so they share no simultaneous reset. Phone checks emulate a phone viewport and touch behavior in Chromium; physical phones and Safari have not been tested. Exact results and acceptance mappings are in [VERIFICATION.md](VERIFICATION.md).
+
+## Behavior
+
+- Record ingredients and individual receipt lots in kg/g, L/ml or whole counts. Dates can be use-by, best-before, supplier-labelled or unknown. Unit cost is per **received** unit.
+- Create and edit recipes, plan multiple dishes for a date, edit portions, and remove a plan. Recipe edits affect every current plan using that recipe.
+- Review required, physical recorded, date-excluded and usable stock for each planned ingredient. Purchase suggestion is `max(0, requirement + buffer - usable)`, rounded **up** to the chosen purchase increment. Buffer defaults to zero and applies to the selected date; purchase increment is an ingredient setting. Unknown dates remain visible for manager review and are included in usable recorded stock. A label date **before** the meal date is excluded; a date equal to the meal date is not yet passed.
+- Edit quantities and save an immutable purchase draft with its calculation snapshot. Changed plans or stock mark it stale. A stale estimate cannot create a new draft. Saving never sends an order or adds stock.
+- Record an actual arrival, optionally against a draft line. Partial arrivals leave an outstanding quantity. Over-receipt against a line is blocked; additional arrivals can be recorded separately.
+- Record selected-lot waste, ordinary usage or a decrease for count discrepancy. Positive removals cannot exceed that lot. Receipts and removals use idempotency keys and row locks; retries cannot apply the same change twice.
+- Write and edit handling and manager-approved substitution notes for ingredients or dishes, with the last editor and timestamp. Notes do not alter recipe arithmetic.
+
+## Persistence and compatibility
+
+Six versioned Flyway migrations create or recognize upstream tables, add the decimal lot ledger, recipes/plans, draft snapshots/receipt progress, guidance editing and the sample registry. Existing inventory, purchase orders and stock history stay intact. A positive legacy balance becomes a clearly labelled opening lot; its old ingredient date has unknown provenance. Run against a backup before adapting an actual legacy installation.
+
+Decimal lots are authoritative. The upstream `Double` total is a compatibility mirror; the new estimator never calculates from it. Legacy read endpoints and original source pages remain available in source. Legacy HTTP writes return 409 so old stock/order routes cannot bypass the ledger. Legacy orders remain historical records; use the new draft and receipt flow for subsequent work. There is no destructive inventory-delete UI.
+
+## Practical limits
+
+This is a local single-kitchen demonstration with a fictional manager identity, **without server authentication or roles**. A hosted pilot needs authentication, deployment configuration and real kitchen validation. The current launcher binds the app to localhost; phone suitability is demonstrated through browser emulation. Lot dates prompt human review and cannot establish food safety. No density conversion, yield-loss model, automatic ordering, external supplier messaging, POS, billing or forecasting is included. Count corrections currently support decreases; a counted increase needs a future audited correction flow. UI history shows the latest 200 movements and 200 notes, and the latest 100 drafts; full records remain in MySQL. Flyway 9.22.3 emits a compatibility warning for MySQL 8.4; the migration and HTTP tests passed on 8.4.11, but that dependency should be updated and revalidated before a hosted pilot.
+
+Sample reset replaces registered fictional kitchen activity and seeded recipes/notes while retaining ingredient identities and other records. It refuses a draft that mixes sample and non-sample ingredients. Use a fresh demo database if non-sample records conflict with the seed names. Review [PRODUCT_DECISIONS.md](PRODUCT_DECISIONS.md) for assumptions and next steps.

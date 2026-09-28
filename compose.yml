@@ -1,0 +1,20 @@
+services:
+  db:
+    image: mysql:8.4.11
+    ports:
+      - "127.0.0.1:3316:3306"
+    environment:
+      MYSQL_DATABASE: prep_demo
+      MYSQL_USER: prep
+      MYSQL_PASSWORD: prep_demo_local
+      MYSQL_ROOT_PASSWORD: root_demo_local
+    volumes:
+      - prep_mysql:/var/lib/mysql
+      - ./scripts/init-demo.sql:/docker-entrypoint-initdb.d/01-prep.sql:ro
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      timeout: 5s
+      retries: 20
+volumes:
+  prep_mysql:
