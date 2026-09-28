@@ -178,7 +178,7 @@ public class InventoryItemService {
     public void checkStockAlerts(InventoryItem item, double previous, double current) {
         if (current <= 0 && previous > 0) {
             notificationService.createNotification(item.getName() + " is out of stock.", "OUT_OF_STOCK");
-        } else if (current > 0 && current <= item.getReorderLevel() && previous > item.getReorderLevel()) {
+        } else if (current > 0 && item.getReorderLevel() != null && current <= item.getReorderLevel() && previous > item.getReorderLevel()) {
             notificationService.createNotification(item.getName() + " is running low on stock.", "LOW_STOCK");
         }
     }

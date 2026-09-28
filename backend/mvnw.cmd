@@ -20,7 +20,7 @@
     @SET JAVA_EXE=java
 )
 
-@SET MVN_CMD=%JAVA_EXE% -classpath "%WRAPPER_JAR%" org.apache.maven.wrapper.MavenWrapperMain %*
+@SET MVN_CMD=%JAVA_EXE% -Dmaven.multiModuleProjectDirectory="%MAVEN_PROJECTBASEDIR%." -classpath "%WRAPPER_JAR%" org.apache.maven.wrapper.MavenWrapperMain %*
 @IF NOT EXIST "%WRAPPER_JAR%" (
     @ECHO Downloading Maven Wrapper...
     @%JAVA_EXE% -jar "%WRAPPER_JAR%" --help >NUL 2>&1 || (
