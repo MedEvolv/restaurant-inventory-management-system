@@ -1,0 +1,962 @@
+{
+  "schemaVersion": 1,
+  "fictional": true,
+  "requiresKitchenReview": true,
+  "recipes": [
+    {
+      "name": "Poha (पोहा) (demo)",
+      "suggestedMeals": [
+        "BREAKFAST"
+      ],
+      "ingredients": [
+        {
+          "name": "Poha",
+          "unit": "kg",
+          "quantityPerPortion": "0.080"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Potatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.030"
+        },
+        {
+          "name": "Peanuts",
+          "unit": "kg",
+          "quantityPerPortion": "0.008"
+        },
+        {
+          "name": "Lemon",
+          "unit": "kg",
+          "quantityPerPortion": "0.006"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.006"
+        }
+      ]
+    },
+    {
+      "name": "Aloo paratha (आलू पराठा) (demo)",
+      "suggestedMeals": [
+        "BREAKFAST"
+      ],
+      "ingredients": [
+        {
+          "name": "Wheat flour",
+          "unit": "kg",
+          "quantityPerPortion": "0.090"
+        },
+        {
+          "name": "Potatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.100"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.015"
+        },
+        {
+          "name": "Curd",
+          "unit": "l",
+          "quantityPerPortion": "0.030"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.008"
+        }
+      ]
+    },
+    {
+      "name": "Besan chilla (बेसन चीला) (demo)",
+      "suggestedMeals": [
+        "BREAKFAST"
+      ],
+      "ingredients": [
+        {
+          "name": "Gram flour",
+          "unit": "kg",
+          "quantityPerPortion": "0.070"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Spinach",
+          "unit": "kg",
+          "quantityPerPortion": "0.015"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.006"
+        }
+      ]
+    },
+    {
+      "name": "Vegetable upma (सब्ज़ी उपमा) (demo)",
+      "suggestedMeals": [
+        "BREAKFAST"
+      ],
+      "ingredients": [
+        {
+          "name": "Semolina",
+          "unit": "kg",
+          "quantityPerPortion": "0.075"
+        },
+        {
+          "name": "Carrots",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Peas",
+          "unit": "kg",
+          "quantityPerPortion": "0.015"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.006"
+        }
+      ]
+    },
+    {
+      "name": "Steamed idli with sambar (इडली सांभर) (demo)",
+      "suggestedMeals": [
+        "BREAKFAST"
+      ],
+      "ingredients": [
+        {
+          "name": "Idli batter",
+          "unit": "kg",
+          "quantityPerPortion": "0.180"
+        },
+        {
+          "name": "Toor dal",
+          "unit": "kg",
+          "quantityPerPortion": "0.035"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Carrots",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.015"
+        },
+        {
+          "name": "Tamarind",
+          "unit": "kg",
+          "quantityPerPortion": "0.003"
+        }
+      ]
+    },
+    {
+      "name": "Dhokla (ढोकला) (demo)",
+      "suggestedMeals": [
+        "BREAKFAST"
+      ],
+      "ingredients": [
+        {
+          "name": "Gram flour",
+          "unit": "kg",
+          "quantityPerPortion": "0.075"
+        },
+        {
+          "name": "Curd",
+          "unit": "l",
+          "quantityPerPortion": "0.035"
+        },
+        {
+          "name": "Lemon",
+          "unit": "kg",
+          "quantityPerPortion": "0.005"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.004"
+        }
+      ]
+    },
+    {
+      "name": "Sabudana khichdi (साबूदाना खिचड़ी) (demo)",
+      "suggestedMeals": [
+        "BREAKFAST"
+      ],
+      "ingredients": [
+        {
+          "name": "Sabudana",
+          "unit": "kg",
+          "quantityPerPortion": "0.085"
+        },
+        {
+          "name": "Potatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.050"
+        },
+        {
+          "name": "Peanuts",
+          "unit": "kg",
+          "quantityPerPortion": "0.015"
+        },
+        {
+          "name": "Curd",
+          "unit": "l",
+          "quantityPerPortion": "0.030"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.006"
+        }
+      ]
+    },
+    {
+      "name": "Paneer paratha (पनीर पराठा) (demo)",
+      "suggestedMeals": [
+        "BREAKFAST"
+      ],
+      "ingredients": [
+        {
+          "name": "Wheat flour",
+          "unit": "kg",
+          "quantityPerPortion": "0.090"
+        },
+        {
+          "name": "Paneer",
+          "unit": "kg",
+          "quantityPerPortion": "0.055"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.012"
+        },
+        {
+          "name": "Curd",
+          "unit": "l",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.008"
+        }
+      ]
+    },
+    {
+      "name": "Moong dal cheela (मूंग दाल चीला) (demo)",
+      "suggestedMeals": [
+        "BREAKFAST"
+      ],
+      "ingredients": [
+        {
+          "name": "Moong dal",
+          "unit": "kg",
+          "quantityPerPortion": "0.075"
+        },
+        {
+          "name": "Paneer",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.018"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.018"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.006"
+        }
+      ]
+    },
+    {
+      "name": "Masala dosa (मसाला डोसा) (demo)",
+      "suggestedMeals": [
+        "BREAKFAST"
+      ],
+      "ingredients": [
+        {
+          "name": "Dosa batter",
+          "unit": "kg",
+          "quantityPerPortion": "0.180"
+        },
+        {
+          "name": "Potatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.090"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.008"
+        }
+      ]
+    },
+    {
+      "name": "Chole (छोले) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Chickpeas",
+          "unit": "kg",
+          "quantityPerPortion": "0.085"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.035"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.050"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.008"
+        },
+        {
+          "name": "Ginger",
+          "unit": "kg",
+          "quantityPerPortion": "0.004"
+        }
+      ]
+    },
+    {
+      "name": "Rajma masala (राजमा मसाला) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Kidney beans",
+          "unit": "kg",
+          "quantityPerPortion": "0.085"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.035"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.055"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.008"
+        },
+        {
+          "name": "Ginger",
+          "unit": "kg",
+          "quantityPerPortion": "0.004"
+        }
+      ]
+    },
+    {
+      "name": "Dal tadka (दाल तड़का) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Toor dal",
+          "unit": "kg",
+          "quantityPerPortion": "0.075"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Ghee",
+          "unit": "l",
+          "quantityPerPortion": "0.006"
+        },
+        {
+          "name": "Garlic",
+          "unit": "kg",
+          "quantityPerPortion": "0.003"
+        }
+      ]
+    },
+    {
+      "name": "Kadhi pakora (कढ़ी पकौड़ा) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Curd",
+          "unit": "l",
+          "quantityPerPortion": "0.160"
+        },
+        {
+          "name": "Gram flour",
+          "unit": "kg",
+          "quantityPerPortion": "0.045"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.012"
+        }
+      ]
+    },
+    {
+      "name": "Palak paneer (पालक पनीर) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Spinach",
+          "unit": "kg",
+          "quantityPerPortion": "0.130"
+        },
+        {
+          "name": "Paneer",
+          "unit": "kg",
+          "quantityPerPortion": "0.075"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.035"
+        },
+        {
+          "name": "Cream",
+          "unit": "l",
+          "quantityPerPortion": "0.015"
+        }
+      ]
+    },
+    {
+      "name": "Aloo gobi (आलू गोभी) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Potatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.090"
+        },
+        {
+          "name": "Cauliflower",
+          "unit": "kg",
+          "quantityPerPortion": "0.110"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.008"
+        }
+      ]
+    },
+    {
+      "name": "Bhindi masala (भिंडी मसाला) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Okra",
+          "unit": "kg",
+          "quantityPerPortion": "0.140"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.030"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.009"
+        }
+      ]
+    },
+    {
+      "name": "Baingan bharta (बैंगन भर्ता) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Eggplant",
+          "unit": "kg",
+          "quantityPerPortion": "0.180"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.030"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.035"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.008"
+        }
+      ]
+    },
+    {
+      "name": "Mixed vegetable curry (मिक्स सब्ज़ी) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Cauliflower",
+          "unit": "kg",
+          "quantityPerPortion": "0.045"
+        },
+        {
+          "name": "Carrots",
+          "unit": "kg",
+          "quantityPerPortion": "0.035"
+        },
+        {
+          "name": "Peas",
+          "unit": "kg",
+          "quantityPerPortion": "0.030"
+        },
+        {
+          "name": "Potatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.040"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.030"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.008"
+        }
+      ]
+    },
+    {
+      "name": "Peas pulao (मटर पुलाव) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Rice",
+          "unit": "kg",
+          "quantityPerPortion": "0.100"
+        },
+        {
+          "name": "Peas",
+          "unit": "kg",
+          "quantityPerPortion": "0.040"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Ghee",
+          "unit": "l",
+          "quantityPerPortion": "0.006"
+        }
+      ]
+    },
+    {
+      "name": "Jeera rice (जीरा चावल) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Rice",
+          "unit": "kg",
+          "quantityPerPortion": "0.100"
+        },
+        {
+          "name": "Ghee",
+          "unit": "l",
+          "quantityPerPortion": "0.006"
+        },
+        {
+          "name": "Cumin seeds",
+          "unit": "kg",
+          "quantityPerPortion": "0.001"
+        }
+      ]
+    },
+    {
+      "name": "Moong dal khichdi (मूंग दाल खिचड़ी) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Rice",
+          "unit": "kg",
+          "quantityPerPortion": "0.055"
+        },
+        {
+          "name": "Moong dal",
+          "unit": "kg",
+          "quantityPerPortion": "0.045"
+        },
+        {
+          "name": "Carrots",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Peas",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Ghee",
+          "unit": "l",
+          "quantityPerPortion": "0.006"
+        }
+      ]
+    },
+    {
+      "name": "Kadai paneer (कड़ाही पनीर) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Paneer",
+          "unit": "kg",
+          "quantityPerPortion": "0.090"
+        },
+        {
+          "name": "Bell peppers",
+          "unit": "kg",
+          "quantityPerPortion": "0.050"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.035"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.055"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.008"
+        }
+      ]
+    },
+    {
+      "name": "Dum aloo (दम आलू) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Potatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.150"
+        },
+        {
+          "name": "Curd",
+          "unit": "l",
+          "quantityPerPortion": "0.055"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.030"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Oil",
+          "unit": "l",
+          "quantityPerPortion": "0.008"
+        }
+      ]
+    },
+    {
+      "name": "Boondi raita (बूंदी रायता) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Curd",
+          "unit": "l",
+          "quantityPerPortion": "0.120"
+        },
+        {
+          "name": "Boondi",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Cumin seeds",
+          "unit": "kg",
+          "quantityPerPortion": "0.001"
+        }
+      ]
+    },
+    {
+      "name": "Cucumber raita (खीरा रायता) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Curd",
+          "unit": "l",
+          "quantityPerPortion": "0.120"
+        },
+        {
+          "name": "Cucumber",
+          "unit": "kg",
+          "quantityPerPortion": "0.060"
+        },
+        {
+          "name": "Cumin seeds",
+          "unit": "kg",
+          "quantityPerPortion": "0.001"
+        }
+      ]
+    },
+    {
+      "name": "Kachumber salad (कचूमर सलाद) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Cucumber",
+          "unit": "kg",
+          "quantityPerPortion": "0.050"
+        },
+        {
+          "name": "Tomatoes",
+          "unit": "kg",
+          "quantityPerPortion": "0.045"
+        },
+        {
+          "name": "Onions",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Lemon",
+          "unit": "kg",
+          "quantityPerPortion": "0.006"
+        }
+      ]
+    },
+    {
+      "name": "Mint chutney (पुदीना चटनी) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Mint",
+          "unit": "kg",
+          "quantityPerPortion": "0.018"
+        },
+        {
+          "name": "Coriander leaves",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Curd",
+          "unit": "l",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Lemon",
+          "unit": "kg",
+          "quantityPerPortion": "0.004"
+        }
+      ]
+    },
+    {
+      "name": "Carrot halwa (गाजर का हलवा) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Carrots",
+          "unit": "kg",
+          "quantityPerPortion": "0.150"
+        },
+        {
+          "name": "Milk",
+          "unit": "l",
+          "quantityPerPortion": "0.100"
+        },
+        {
+          "name": "Sugar",
+          "unit": "kg",
+          "quantityPerPortion": "0.025"
+        },
+        {
+          "name": "Ghee",
+          "unit": "l",
+          "quantityPerPortion": "0.008"
+        },
+        {
+          "name": "Cashews",
+          "unit": "kg",
+          "quantityPerPortion": "0.006"
+        }
+      ]
+    },
+    {
+      "name": "Rice kheer (चावल की खीर) (demo)",
+      "suggestedMeals": [
+        "LUNCH",
+        "DINNER"
+      ],
+      "ingredients": [
+        {
+          "name": "Milk",
+          "unit": "l",
+          "quantityPerPortion": "0.180"
+        },
+        {
+          "name": "Rice",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Sugar",
+          "unit": "kg",
+          "quantityPerPortion": "0.020"
+        },
+        {
+          "name": "Almonds",
+          "unit": "kg",
+          "quantityPerPortion": "0.005"
+        }
+      ]
+    }
+  ]
+}

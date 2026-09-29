@@ -37,3 +37,7 @@ Later conditional scope: chronological stock reservation/delivery allocation, pr
 ## Documentation provenance
 
 The dated product package is revised to1.1 while retaining original research assumptions and source attribution. Research proposals, original submissions, course/source extracts and historical audit artifacts remain historical inputs. Authored product docs are published under `docs/product`; raw course PDFs, interview/source extracts, databases, SQL dumps and runtime logs are not part of this documentation publication. The Word report's content/package checks are separate from visual pagination; renderer status is recorded in REVIEW_RECORD.md.
+
+## Recipe data augmentation 29 September 2026
+
+The live demo now has32 active recipes:2 retained plus30 vegetarian Hindi/English demo additions with illustrative per-portion matrices.37 missing ingredients were added with zero stock (44 total). Existing stock/lots/plans/history/notes/drafts and selected purchase estimates stayed identical. Repeating import adds nothing. See [the recipe catalog](../../assets/DEMO_RECIPES.md). This is recipe data, not published methods or a prepared-batch ledger.

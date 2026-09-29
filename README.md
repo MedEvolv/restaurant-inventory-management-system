@@ -152,3 +152,7 @@ Backend tests use prep_test. Original browser regressions reset only registered 
 ### Shared-kitchen pilot gates
 
 Server authentication and staff/manager permissions are **not implemented**. Shared real use needs tested auth/data-access/deployment controls, the deployment's backup/restore procedure and kitchen-owner content review. Technical fresh/upgrade/restart/restore checks do not establish real kitchen usability or safe independent production. Hindi/English and Delhi–Gurgaon are rollout choices; no interviews or kitchen pilot were conducted. Intermediate batches, chronological stock reservation, automated external ingestion and speech lookup remain conditional later branches. EatByDate is a reference, not an integrated expiry authority.
+
+## Expanded demo recipe catalog
+
+[30 additional Hindi/English vegetarian recipes](assets/DEMO_RECIPES.md) cover breakfasts, mains, sides, raitas, chutney and desserts. The live database has32 active recipes. A standard-library Python importer adds missing recipes/ingredients through the existing API without replacing records or creating stock. See the catalog guide for preview/apply commands, backup requirements and exact verification. These are illustrative per-portion quantities requiring kitchen review, not published cooking instructions.
