@@ -75,3 +75,7 @@ The user's direct request for an urgent demo, weekly calendar, breakfast/lunch/d
 - Existing receipts/cost, lot dates, overrides/partial arrivals, waste/usage/count decreases, notes and history remain reachable under More. Reset is initially collapsed and retains explicit confirmation.
 
 Fresh/upgrade/restart/restore and browser checks are local engineering gates. Actual kitchen content approval, protected server roles and device observation remain pilot gates. Comparator patterns support layout choices, not measured improvements. Prepared batches and EatByDate automated ingestion are not implemented by this increment.
+
+## Delivery status 29 September 2026
+
+Approved guidance/bilingual/calendar scope is implemented, engineering-accepted and published on the MedEvolv fork.39backend/33frontend/8browser checks; existing data and purchase fingerprints preserved. Source release4d0962f. Prior planning exclusions are historical; the explicit calendar amendment is delivered. Customer research, semantic content review and protected pilot remain open. See docs/product/CURRENT_RELEASE.md.

@@ -6,7 +6,7 @@ License: MIT, Copyright (c) 2026 Balakrishna Kini. LICENSE is preserved.
 
 Baseline verified locally on 28 September 2026:
 
-- React/Vite installation and production build passed. Its dependency audit reported 11 inherited vulnerabilities; the adapted frontend dependency audit now reports zero vulnerabilities.
+- React/Vite installation and production build passed. Its dependency audit reported 11 inherited vulnerabilities; the earlier adapted frontend audit reported zero vulnerabilities; no fresh audit is claimed for the documentation update.
 - Java 21 portable runtime checksum verified. Windows Maven wrapper required its missing multiModuleProjectDirectory property and a trailing-path quoting fix.
 - Inherited backend suite initially failed 1 of 3 tests: stock increase unboxed a null reorder level. Added a null guard. All 3 inherited tests then passed and the backend packaged.
 - Docker Desktop's UI was running but no engine was reachable. Official portable MySQL 8.4.11 was downloaded, checksum checked, and started on 127.0.0.1:3316. No system MySQL installation was changed.
@@ -19,3 +19,7 @@ Source issues requiring adaptation: ingredient-level expiry; Double quantity fie
 RIMS reference: https://github.com/Khdeval/RIMS at 6f8e084c5c0a4cbf3dce9d4c31f1551a0ba43991. No LICENSE or package license field was found. No RIMS code is copied. Recipe links, stock-in, and reason-coded removal are reimplemented from functional requirements. Its yield factor convention is excluded.
 
 The baseline was retained as commit 0f5d3c0. See VERIFICATION.md for the completed capstone acceptance mapping and subsequent test evidence.
+
+## Current adaptation
+
+The upstream baseline checks above are historical. The reviewed local release adds V7–V9 guidance/bilingual/media/questions and a bounded meal calendar. See VERIFICATION.md for39backend/33frontend/8browser acceptance and docs/product/CURRENT_RELEASE.md for remaining pilot scope.

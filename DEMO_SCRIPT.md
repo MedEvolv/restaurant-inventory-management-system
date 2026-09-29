@@ -54,3 +54,7 @@ The separate fixture “7 kg usable, then 3 kg spoiled, suggests 14 kg” applie
 Close by naming what remains unvalidated: whether lot entry is practical in the kitchen, whether portions and recipe quantities reflect actual prep, how often managers override the draft, and whether this reduces planning effort. No savings claim is supported by this demonstration.
 
 For a small usability test, record start/end time for the plan-to-draft decision, number and reasons for manual quantity corrections, date-review mistakes, and recovery from an invalid removal. Ask the manager to walk through their last over-order, stockout or discarded lot using their existing records; compare the decision process before discussing adoption or payment.
+
+## Published demo source
+
+[Build branch](https://github.com/MedEvolv/restaurant-inventory-management-system/tree/codex/group1-prep-purchase); source release4d0962f. Use the current tour above, not historical navigation. Product roadmap and evidence are in [docs/product](docs/product/README.md). GitHub publishing does not host the local application.

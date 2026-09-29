@@ -6,9 +6,13 @@ This is a local Group 1 capstone MVP. All kitchen names, quantities, manager not
 
 Adapted from [RestaurantIQ](https://github.com/Balakrishna-kini/restaurant-inventory-management-system), MIT, Copyright (c) 2026 Balakrishna Kini. The original [LICENSE](LICENSE) remains intact. See [ATTRIBUTION.md](ATTRIBUTION.md) for copied and new work.
 
+## Repository and product documentation
+
+[GitHub build branch](https://github.com/MedEvolv/restaurant-inventory-management-system/tree/codex/group1-prep-purchase) · [Product documentation](docs/product/README.md) · [Current release](docs/product/CURRENT_RELEASE.md). Source release commit: `4d0962f`.
+
 ## Local demo
 
-Verified checkout: `C:\ArchLife-Systems\group1-prep-purchase`, branch `codex/group1-prep-purchase`. Open **http://127.0.0.1:3016** while the app is running. Backend: `127.0.0.1:8086`; isolated MySQL: `127.0.0.1:3316`. The source mirror is in the capstone project's `prototypes/prep-purchase-src` folder. This is a standalone local Git fork retaining upstream history; nothing has been pushed or deployed.
+Verified checkout: `C:\ArchLife-Systems\group1-prep-purchase`, branch `codex/group1-prep-purchase`. Open **http://127.0.0.1:3016** while the app is running. Backend: `127.0.0.1:8086`; isolated MySQL: `127.0.0.1:3316`. The source mirror is in the capstone project's `prototypes/prep-purchase-src` folder. This is a standalone local Git fork retaining upstream history; the reviewed source is published on the MedEvolv fork; no application deployment has occurred.
 
 On the already prepared Windows machine:
 

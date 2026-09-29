@@ -1,85 +1,19 @@
-<div align="center">
-  <img src="../assets/logo.svg" alt="RestaurantIQ Logo" width="180">
+# Group1 kitchen guidance and planning backend
 
-  <h1>RestaurantIQ Backend Service</h1>
-  <p><b>Spring Boot 3.x REST API Layer</b></p>
+Java21 / Spring Boot3 / MySQL8.4 local API for the reviewed Group1 capstone. The Group1 app is not deployed to the upstream author's Railway service. Default local backend: http://127.0.0.1:8086, API prefix `/api/prep`.
 
-  <div>
-    <img src="https://img.shields.io/badge/Spring_Boot-3.2-6DB33F?style=for-the-badge&logo=springboot&logoColor=white" alt="Spring Boot 3.x" />
-    <img src="https://img.shields.io/badge/Java-21-ED8B00?style=for-the-badge&logo=openjdk&logoColor=white" alt="Java 21" />
-    <img src="https://img.shields.io/badge/MySQL-8.0-4479A1?style=for-the-badge&logo=mysql&logoColor=white" alt="MySQL 8.0" />
-    <br/>
-    <img src="https://img.shields.io/badge/Deployed_on-Railway-131415?style=for-the-badge&logo=railway&logoColor=white" alt="Railway" />
-  </div>
-</div>
+## Behavior
 
----
+Decimal dated-lot stock with transaction locks/idempotency; recipes/plans/current quantities; daily purchase estimates and immutable drafts; actual partial receipts; usage/waste/count decreases; notes/history. Versioned guidance drafts and immutable publications support explicit reviewed Hindi/English variants, recipe-context staleness, persistent JPEG/PNG photos and local contextual questions/resolutions. V9 adds the seven-day calendar, meal slots and strict date-specific serving times. All nine migrations are additive; legacy plans remain UNASSIGNED with exact quantities.
 
-## 🔗 Live Production API
-**Endpoint:** [https://restaurant-inventory-management-system-production.up.railway.app/api/dashboard/summary](https://restaurant-inventory-management-system-production.up.railway.app/api/dashboard/summary)
+No LLM API, machine translation, automatic expiry authority, supplier messaging or server-enforced staff/manager roles. A week calendar does not reserve stock across dates. Prepared-product production/yield/lineage is later scope.
 
----
+## Setup and verification
 
-## 🎯 Architecture Overview
+Use the [root setup and prepared-machine offline Maven commands](../README.md). Local database `prep_demo` on3316, separate test database `prep_test`; overrides are PREP_DB_URL/PREP_DB_USER/PREP_DB_PASSWORD and PREP_TEST_DB_URL. Keep real credentials out of source. Migrations V1–V9 run through Flyway. Do not reset a real or presentation database to run browser fixtures.
 
-This backend is the engine powering RestaurantIQ. It handles database persistence, dynamic valuation algorithms, and enforces strict data integrity via a decoupled DTO layer.
+Current accepted backend suite:39tests, zero failures/errors on actual MySQL. Fresh schema, V8→V9 preservation, actual restart and separate-database hex-BLOB dump/import passed. See [verification](../VERIFICATION.md) for exact evidence, historical helper status and Flyway/MySQL compatibility limits; this is engineering acceptance, not safe-food or hosted security certification.
 
-```mermaid
-graph TD
-    Controller["REST Controllers<br/><b>JSON Endpoints</b>"]
-    Service["Service Layer<br/><b>Business Logic (WAC)</b>"]
-    Repository["Spring Data JPA<br/><b>Entity Repositories</b>"]
-    DB[("MySQL 8.0<br/><b>Relational Data</b>")]
+## Provenance
 
-    Controller -- DTO Mapping --> Service
-    Service -- Entities --> Repository
-    Repository -- Hibernate --> DB
-    
-    classDef layer fill:#6DB33F,stroke:#000,stroke-width:2px,color:#fff;
-    classDef database fill:#4479A1,stroke:#000,stroke-width:2px,color:#fff;
-    
-    class Controller,Service,Repository layer;
-    class DB database;
-```
-
----
-
-## ✨ Core Backend Responsibilities
-
-| Subsystem | Responsibility |
-|-----------|----------------|
-| **DTO Mapper** | Strictly isolates internal JPA entities from API consumers, ensuring precise JSON payload delivery. |
-| **WAC Engine** | Intercepts fulfilled Purchase Orders to dynamically recalculate aggregate unit pricing across the inventory. |
-| **Audit Interceptor** | Automatically listens for stock alterations and commits immutable logs to the `StockHistory` table. |
-| **KPI Aggregator** | Offloads complex counting algorithms (Expiry, Out of Stock, Value) from the client to the server via `/api/dashboard/summary`. |
-
----
-
-## ⚙️ Local Development
-
-### Prerequisites
-* Java 21
-* MySQL 8.0+
-* Maven
-
-### Setup
-1. Create a MySQL database named `restaurant_inventory`.
-2. Configure `src/main/resources/application.properties` with your credentials:
-   ```properties
-   spring.datasource.username=root
-   spring.datasource.password=your_password
-   ```
-3. Run the application:
-   ```bash
-   mvn spring-boot:run
-   ```
-
----
-
-## 👨‍💻 Author
-
-**Balakrishna Kini**
-
-[![LinkedIn](https://img.shields.io/badge/LinkedIn-0A66C2?style=for-the-badge&logo=linkedin&logoColor=white)](https://linkedin.com/in/balakrishna-kini)
-[![GitHub](https://img.shields.io/badge/GitHub-181717?style=for-the-badge&logo=github&logoColor=white)](https://github.com/Balakrishna-kini)
-[![Email](https://img.shields.io/badge/Email-D14836?style=for-the-badge&logo=gmail&logoColor=white)](mailto:balakrishnakini22@gmail.com)
+Adapted from RestaurantIQ by Balakrishna Kini under MIT. Original entities/read APIs/history and copyright remain. Group1's decimal lot ledger is authoritative; legacy Double totals are compatibility mirrors and old write routes cannot bypass it. See [attribution](../ATTRIBUTION.md) and [current release](../docs/product/CURRENT_RELEASE.md).

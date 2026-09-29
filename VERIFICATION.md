@@ -44,7 +44,7 @@ The retained live29September fixture intentionally has two120-portion dishes und
 
 Actual checkout: `C:\ArchLife-Systems\group1-prep-purchase`, branch `codex/group1-prep-purchase`. Source mirror: `C:\Users\ishaa\edocsil-cas\01_Projects\PM Group 1 Capstone Project\prototypes\prep-purchase-src`. Management/audits/scripts: sibling `guidance-phase2-management-20260928`.
 
-The accepted application/test candidate has **32 files** (10 new,22 changed), recorded in `reviewed-ux-code-candidate-20260929.json`. Four release documents are reviewed/copied separately. Runtime/build/dependency directories are excluded from source integration. No commit, remote push or production deployment was performed for this increment.
+The accepted application/test candidate has **32 files** (10 new,22 changed), recorded in `reviewed-ux-code-candidate-20260929.json`. Four release documents are reviewed/copied separately. Runtime/build/dependency directories are excluded from source integration. The verified source was committed and pushed to [the MedEvolv build branch](https://github.com/MedEvolv/restaurant-inventory-management-system/tree/codex/group1-prep-purchase) as `4d0962f`; no production deployment was performed. Documentation updates follow the source release. The36-file SHA record is the pre-publication integration snapshot, not a hash manifest for later documentation edits.
 
 Live: frontend3016/backend8086/MySQL3316, database `prep_demo`. Isolated browser validation:3017/8087/3317, database `prep_ui_revamp_20260928`. The three current browser files refuse any base URL other than3017. Use the prepared isolated Playwright configuration in README; do not run reset fixtures against the live presentation database.
 
