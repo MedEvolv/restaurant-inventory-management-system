@@ -2,7 +2,7 @@
 
 ## Release update 29 September 2026
 
-Phases2a/2b and the authorized bounded calendar/UI increment are engineering-complete and published. Discovery0–1 and pilot3 remain open; chronological allocation4 and prepared batches5 are not delivered.
+Phases2a/2b, the authorized calendar increment and the bounded RestaurantIQ-inspired visual/search/manager-strip refinement are engineering-complete. Discovery0–1 and pilot3 remain open; chronological allocation4 and prepared batches5 are not delivered.
 
 [Current release, checks and remaining scope](CURRENT_RELEASE.md).
 
@@ -18,12 +18,14 @@ Vision: kitchen knowledge remains usable at the moment a worker needs it. Strate
 |---|---|---|---|
 | Now | Concrete reviewable product definition | This documentation; evidence register, metrics, personas, stories and priorities | Complete; refreshed after build and GitHub publication |
 | Now | Read current approved guidance in preferred language | Delivered Today, reviewed Hindi/English, photos/questions and local playback | Local engineering acceptance complete; customer value unvalidated |
-| Delivered local demo | Navigate meals simply | Week calendar,30–100 portions, three meals, saved serving times and focused Guides |39backend/33frontend/8browser checks; no chronological reservation |
+| Delivered local demo | Navigate meals simply | Week calendar,30–100 portions, three meals, saved serving times and focused Guides |39frontend/8browser checks; prior39backend checks reused; no chronological reservation |
+| Now | UI coherence and faster recipe finding | Shared navy/blue/white shell, clear active navigation, readable Hindi/English controls, language-aware recipe search in planner/New Guide with selection preserved, and selected-date plan/lot review counts linked to More → Stock; unavailable states on ingredient load/refresh failure | Delivered: 39 frontend tests/10 files, lint clean, build 34 modules, eight isolated browser workflows passed; live UI smoke passed. Existing 39 backend tests reused; no backend changes. Customer value unvalidated |
 | Now | Select a real leading job | Recent-incident interviews and baseline from one accessible kitchen | No field interviews complete |
 | Next | Demonstrate useful task improvement | Task comparison text/photo/audio/current workaround, actual device/vocabulary | Requires selected incident and content reviewer |
 | Next | Operate a protected one-kitchen pilot | Server roles, real reviewed policies, recovery, measurement and setup | Local navigation-only demo does not satisfy this gate |
 | Later, conditional | Plan seven days without allocating stock twice | Meal slots/servings, chronological projection, reviewed purchase drafts | J2 evidence and reliable baseline data required |
 | Later, conditional | Use prepared products with correct eligibility/lineage | Nested recipes/yields, actual production, deadlines/hold, FEFO/service time | J3 evidence and applicable reviewed policies required |
+| Later, conditional | Decision-led visual analytics | Charts or broad sortable tables | Only after a named manager decision, reliable data and task evidence justify them |
 | Later, experimental | Better access/input where demonstrated | Speech lookup, offline, export/handover, source integration | Field constraint and access tests first |
 
 The prototype was authorized and built before field discovery finished. That is an engineering choice for capstone feasibility, **not completion of research Phases 0–1**. Do not relabel those phases as done because a screen exists.

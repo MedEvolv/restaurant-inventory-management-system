@@ -2,7 +2,7 @@
 
 ## Release update 29 September 2026
 
-The local guidance/bilingual/calendar redesign is complete and GitHub-published. Start with CURRENT_RELEASE.md for delivery status, then the detailed documents below.
+The local guidance/bilingual/calendar redesign is complete and GitHub-published. The bounded visual/search refinement and selected-date manager strip are integrated and engineering-accepted: 39 frontend tests/10 files, zero-warning lint, a 34-module build and eight isolated laptop/phone browser workflows passed. The prior 39 backend tests were reused; no backend code changed. Start with CURRENT_RELEASE.md for delivery status, then the detailed documents below.
 
 [Current release, checks and remaining scope](CURRENT_RELEASE.md).
 
@@ -17,7 +17,7 @@ Help a cook resolve a specific preparation decision using the kitchen's current,
 
 **Evidence status:** the supplied project records contain zero completed field interviews and no real interview tapes. These documents specify a product hypothesis and proposed tests. They do not claim customer validation, proven waste reduction or product-market fit. The personas and journeys are provisional. Synthetic interviews and automated app tests are separately labelled.
 
-The user has requested a Hindi/English interface toggle **and separately reviewed guidance in both languages**. This supersedes the older Hindi-only interface proposal. Broader multilingual support remains outside the current release. Documentation preceded implementation; both are now complete for the bounded local release.
+The user has requested a Hindi/English interface toggle **and separately reviewed guidance in both languages**. This supersedes the older Hindi-only interface proposal. Broader multilingual support remains outside the current release. Documentation preceded implementation of the current local release. The RestaurantIQ-inspired shell, bilingual recipe search and scoped manager actions are integrated and verified.
 
 **Later user steering on the same date:** add a weekly calendar, 30–100 portions in steps of ten, breakfast/lunch/dinner and editable serving times, and revamp the interface around the user. This authorizes a local menu-planning demo now, ahead of the earlier conditional weekly phase. It does not establish demand or validate weekly stock allocation. The exact scope and checks are recorded in the [usability implementation contract](UX_IMPLEMENTATION_CONTRACT.md); actual implementation results are in CURRENT_RELEASE.md and the application verification record.
 
@@ -33,7 +33,8 @@ The user has requested a Hindi/English interface toggle **and separately reviewe
 | [MoSCoW and RICE prioritization](PRIORITIZATION.md) | What belongs in the next release, and why are later bets conditional? |
 | [Product roadmap](ROADMAP.md) | What is Now, Next and Later, with phase gates, tests and owners? |
 | [Source register and course alignment](SOURCES_AND_COURSE_ALIGNMENT.md) | Which supplied materials informed each decision? |
-| [Kitchen MVP usability design report](Kitchen%20MVP%20Usability%20Design%20Report.docx) · [reading copy](design-report-preview/index.html) | Finalised 29 September: persona aligned simplification, official meez/Apicbase/Paprika interaction review, Today and manager flows, and proposed usability checks. Word pagination remains unverified; the browser reading copy was visually inspected. |
+| [Kitchen MVP usability design report](Kitchen%20MVP%20Usability%20Design%20Report.docx) · [reading copy](design-report-preview/index.html) | Persona aligned simplification, official meez/Apicbase/Paprika interaction review, RestaurantIQ-inspired refinement criteria and proposed usability checks. The UI refinement is engineering-accepted; Word pagination remains unverified. |
+| [RestaurantIQ design reuse assessment](RESTAURANTIQ_DESIGN_REUSE.md) | Source patterns, local adaptations and constraints for the current bounded UI refinement. |
 
 ## Review decisions
 

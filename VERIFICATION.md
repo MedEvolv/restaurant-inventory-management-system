@@ -4,7 +4,11 @@ The approved persona-aligned calendar and bilingual guidance redesign is impleme
 
 No LLM API is required or called. No interview, actual kitchen observation, physical-device trial or measured savings/adoption result has been recorded. This is a fictional local demonstration, not a hosted pilot.
 
-## Current acceptance
+## Current UI acceptance
+
+Current UI acceptance: 39 frontend tests in 10 files, clean lint and production build, and all eight isolated laptop/phone browser workflows in one 1.6-minute run. The prior 39 backend tests and recovery checks are reused because the backend is unchanged.
+
+## Initial release acceptance (historical)
 
 | Check | Actual result and practical coverage |
 |---|---|
@@ -76,3 +80,9 @@ Prepared curries/sauces/chutneys and their policy-dependent shorter expiries, ch
 Existing limitations: count adjustment supports decreases only; UI lists recent200 movements/notes and100 drafts while the database retains full history. Legacy Double fields are compatibility mirrors; decimal lots drive the workflow. Flyway9.22.3 warns MySQL8.4 is newer than its tested range; stated migration/API checks passed on8.4.11, with dependency revalidation required before hosting. No new vulnerability audit or hosted security certification is claimed.
 
 Attribution: RestaurantIQ, MIT, Copyright (c)2026 Balakrishna Kini. Original LICENSE and upstream history retained; see ATTRIBUTION.md and PRODUCT_DECISIONS.md.
+
+## UI refinement verification — 29 September 2026
+
+Sol accepted 39 frontend tests across 10 files, lint with zero warnings and a production build of 34 modules. All eight isolated laptop/phone browser workflows passed in 1.6 minutes. Read-only live Playwright confirmed Hindi/English planner recipe search, preserved selected recipe and 50 portions while searching, no-match feedback, Guides search, 390px Hindi layout without overflow, and zero JavaScript errors. Root integrated 10 application files into the live checkout with SHA guards and a backup at `.runtime/reviewed-source-backup-20260929T091012Z`.
+
+The UI increment changes no backend code, APIs, schema, dependencies or database. The prior 39 backend tests are reused from the accepted release; they were not rerun. Root's seven before/after live data comparisons remained equal, including 32 recipes, 44 ingredients and stock/lots, calendar, history, drafts, notes and estimate. Customer usability and food safety are not established by these engineering checks.

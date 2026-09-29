@@ -46,7 +46,7 @@ There are no completed primary interviews in the supplied materials. The [resear
 
 Goals: make approved instructions discoverable; retain exact current quantity context; make approval/version/source ownership visible; suppress stale methods; preserve content/data across reload and recovery; evaluate whether the complete flow improves correct resolution versus the current alternative.
 
-Completed authorized sequence: documentation preceded implementation of a persistent Hindi/English interface choice with **separately reviewed bilingual guidance**. Existing single-language guidance must remain valid and readable; untranslated content must be labelled, never silently transformed.
+Completed sequence: documentation preceded implementation of a persistent Hindi/English interface choice with **separately reviewed bilingual guidance**. This sequence is complete for the current local release. Existing single-language guidance must remain valid and readable; untranslated content must be labelled, never silently transformed.
 
 Non-goals for this increment: general conversational agent, automatic substitutions or cooking-policy generation, automatic purchasing, complete weekly ledger, full prepared-product ledger, universal food expiry, multi-site accounts, nutrition planning and home pantry. Authentication/hardening is mandatory before a shared pilot, although the present local demo has navigation-based staff/manager views only.
 
@@ -100,6 +100,10 @@ After the documentation request, the user directly requested a calendar, a porti
 - **R16:** the menu is separate from Ingredients & buying and recipe maintenance. Today presents meal cards before dish details; local questions, calculations, settings, lot details and demo reset use explicit disclosures. Phone and desktop layouts remain readable, keyboard operable and free of page overflow in both interface languages.
 
 The [implementation contract](UX_IMPLEMENTATION_CONTRACT.md) defines exact API, layout and regression gates. Chronological weekly stock reservation, future deliveries and prepared-batch eligibility remain later independent scope.
+
+## Additional bounded UI refinement (integrated 29 September 2026)
+
+The RestaurantIQ-inspired navy/blue/white shell, selected navigation and readable Hindi/English controls are integrated. Plan meals and New Guide search recipe names in both languages, preserve the selected recipe and portions while typing, and show no-match feedback. The manager strip shows selected-date planned entries including unassigned dishes; non-exhausted lots with recorded label dates before that date; and non-exhausted lots with unknown dates. Both lot counts link to More → Stock. Ingredient loading and refresh failures, including after a write, show unavailable rather than zero. Dates prompt review and do not determine food safety. Existing Questions behavior is unchanged; no question count/filter, table or chart was added. APIs, schema, dependencies and database are unchanged, and the 32-recipe catalog/data are preserved. Sol accepted 39 frontend tests across 10 files, lint with zero warnings and a 34-module production build; all eight isolated laptop/phone browser workflows passed. Live read-only Playwright confirmed Hindi/English recipe search, preserved selection and 50 portions during search, no-match feedback, Guides search, a 390px Hindi layout without overflow, and zero JS errors. The prior 39 backend tests are reused because this increment changes no backend code. No customer outcome is claimed.
 
 ## 7. Domain and technical approach
 

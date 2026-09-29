@@ -2,7 +2,7 @@
 
 ## Release update 29 September 2026
 
-Engineering results are39 backend/33 frontend/8 browser workflows. The North Star and all customer/business baselines remain not measured; no automatic outcome instrumentation was added.
+Engineering results are39 frontend tests in10files and8 browser workflows; the prior39 backend tests are reused unchanged. The North Star and all customer/business baselines remain not measured; no automatic outcome instrumentation was added.
 
 [Current release, checks and remaining scope](CURRENT_RELEASE.md).
 

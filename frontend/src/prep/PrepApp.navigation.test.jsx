@@ -22,6 +22,53 @@ describe('manager and staff navigation shell', () => {
     expect(within(secondary).getAllByRole('button').map(button => button.textContent.trim())).toEqual(['Ingredients & buying', 'Dishes', 'Stock', 'Purchases', 'Records'])
   })
 
+  it('counts selected-date plans and only positive-stock date-review lots, then opens More → Stock', async () => {
+    const user = userEvent.setup()
+    const dates = ['2026-09-28', '2026-09-29', '2026-09-30', '2026-10-01', '2026-10-02', '2026-10-03', '2026-10-04']
+    api.get.mockImplementation(path => path === '/ingredients' ? Promise.resolve([{ id: 1, name: 'Rice', unit: 'kg', onHand: 2, lots: [{ id: 11, remaining: 2, labelDate: '2026-09-27' }, { id: 12, remaining: 4, labelDate: null }, { id: 13, remaining: 0, labelDate: '2026-09-01' }] }]) : path.startsWith('/calendar?') ? Promise.resolve({ start: '2026-09-28', end: '2026-10-04', days: dates.map((date,index) => ({ date, plans: index === 0 ? [{ id: 70, recipeId: 9, name: 'Rice', portions: 50, mealSlot: 'UNASSIGNED' }] : [], mealTimes: {} })) }) : path === '/recipes' ? Promise.resolve([{ id: 9, name: 'Rice', active: true, ingredients: [] }]) : path === '/estimate?date=2026-09-28' ? Promise.resolve({ plans: [], lines: [], fingerprint: 'action-counts' }) : path === '/guidance' || path === '/escalations' ? Promise.resolve([]) : Promise.resolve([]))
+    render(<PrepApp/>)
+    await user.click(await screen.findByRole('button', { name: 'Manager workspace' }))
+    const actions = await screen.findByRole('region', { name: 'Manager actions for the selected date' })
+    expect(within(actions).getByText('Planned dish entries for 2026-09-28')).toBeInTheDocument()
+    expect(within(actions.querySelector('.action-count')).getByText('1', { selector: 'strong' })).toBeInTheDocument()
+    expect(within(actions).getByRole('button', { name: /Lots with label dates before 2026-09-28/ })).toHaveTextContent('1')
+    expect(within(actions).getByRole('button', { name: /Lots with unknown label dates/ })).toHaveTextContent('1')
+    await user.click(within(actions).getByRole('button', { name: /Lots with label dates before 2026-09-28/ }))
+    expect(await screen.findByRole('heading', { name: 'Stock & dates' })).toBeInTheDocument()
+  })
+
+  it('marks lot counts unavailable after a failed post-write refresh and restores them after retry', async () => {
+    const user = userEvent.setup()
+    let ingredientLoads = 0
+    const lots = [{ id: 11, remaining: 2, labelDate: '2026-09-27' }]
+    const dates = ['2026-09-28', '2026-09-29', '2026-09-30', '2026-10-01', '2026-10-02', '2026-10-03', '2026-10-04']
+    api.get.mockImplementation(path => {
+      if (path === '/ingredients') { ingredientLoads += 1; return ingredientLoads === 2 ? Promise.reject(new Error('refresh timed out')) : Promise.resolve([{ id: 1, name: 'Rice', unit: 'kg', onHand: 2, lots }]) }
+      if (path.startsWith('/calendar?')) return Promise.resolve({ start: '2026-09-28', end: '2026-10-04', days: dates.map(date => ({ date, plans: [], mealTimes: {} })) })
+      if (path === '/recipes') return Promise.resolve([{ id: 9, name: 'Rice', active: true, ingredients: [] }])
+      if (path === '/estimate?date=2026-09-28') return Promise.resolve({ plans: [], lines: [], fingerprint: 'refresh-counts' })
+      return Promise.resolve([])
+    })
+    api.post.mockResolvedValue({ id: 2 })
+    render(<PrepApp/>)
+    await user.click(await screen.findByRole('button', { name: 'Manager workspace' }))
+    await user.click(await screen.findByRole('button', { name: 'More' }))
+    await user.click(await screen.findByRole('button', { name: 'Stock' }))
+    await user.click(await screen.findByRole('button', { name: 'Add ingredient' }))
+    await user.type(screen.getByLabelText('Ingredient name'), 'Beans')
+    await user.click(screen.getByRole('button', { name: 'Create ingredient' }))
+    expect(await screen.findByText(/stock did not refresh/)).toBeInTheDocument()
+    await user.click(screen.getByRole('button', { name: 'Plan meals' }))
+    const actions = await screen.findByRole('region', { name: 'Manager actions for the selected date' })
+    const pastDateAction = within(actions).getByRole('button', { name: /Lots with label dates before 2026-09-28/ })
+    expect(pastDateAction).toHaveTextContent('Unavailable')
+    expect(pastDateAction).toBeDisabled()
+    await user.click(screen.getByRole('button', { name: 'Refresh' }))
+    await waitFor(() => expect(pastDateAction).toHaveTextContent('1'))
+    expect(pastDateAction).toBeEnabled()
+    expect(ingredientLoads).toBe(3)
+  })
+
   it('keeps unsaved Hindi and English guide text mounted through Guides → staff Today → manager Guides', async () => {
     const user = userEvent.setup()
     render(<PrepApp/>)

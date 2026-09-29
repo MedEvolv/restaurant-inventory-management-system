@@ -28,7 +28,7 @@ function PrepAppContent() {
   const [panelBusy, setPanelBusy] = useState(false)
   const [loading, setLoading] = useState(true)
   const reportError = useCallback(value => setError(value.message || String(value)), [])
-  const refresh = useCallback(async () => { setItems(await api.get('/ingredients')) }, [])
+  const refresh = useCallback(async () => { try { const nextItems = await api.get('/ingredients'); setItems(nextItems); setStockError(''); return nextItems } catch (value) { setStockError(value.message || String(value)); throw value } }, [])
   useEffect(() => { refresh().catch(value => setStockError(value.message)).finally(() => setLoading(false)) }, [refresh])
   async function mutate(operation, success) {
     if (saving) return false
@@ -57,7 +57,7 @@ function PrepAppContent() {
       <main>{manager && <p className="manager-demo-note muted small">{language === 'hi' ? 'स्थानीय प्रदर्शन दृश्य में साइन-इन या अनुमति नियंत्रण लागू नहीं हैं।' : 'Sign-in and permission controls are not active in this local demo.'}</p>}{manager && error && <div className="alert error" role="alert">{typeof error==='string'?error:<>{t(error.key)} {error.detail}</>}<button className="text-button" onClick={() => refresh().then(() => setError('')).catch(value => setError(value.message))}>{t('app.refresh')}</button></div>}{message && <div className="alert success" role="status">{typeof message==='string'?message:t(message.key,message.values)}</div>}
         {!manager && <TodayPanel api={api} initialDate={workDate} onDateChange={setWorkDate} onBusyChange={setPanelBusy} onPlanDate={openStaffPlan}/>}
         {visitedGuides && <div hidden={!manager || tab !== 'guides'}><GuidanceManager api={api} onBusyChange={setPanelBusy}/></div>}
-        {manager && tab === 'plan' && <PlanPanel items={items} planDate={planDate} onDateChange={setPlanDate} onBusyChange={setPanelBusy} view="menu" api={api} mutate={mutate} saving={saving} reportError={reportError} onDraftSaved={() => { setMoreView('purchases'); setTab('more') }}/>}
+        {manager && tab === 'plan' && <PlanPanel items={items} stockCountsState={loading?'loading':stockError?'unavailable':'ready'} onOpenStock={() => { setMoreView('stock'); setTab('more') }} planDate={planDate} onDateChange={setPlanDate} onBusyChange={setPanelBusy} view="menu" api={api} mutate={mutate} saving={saving} reportError={reportError} onDraftSaved={() => { setMoreView('purchases'); setTab('more') }}/>}
         {manager && tab === 'more' && (moreView === 'ingredients' || moreView === 'dishes') && <PlanPanel items={items} planDate={planDate} onDateChange={setPlanDate} onBusyChange={setPanelBusy} view={moreView} api={api} mutate={mutate} saving={saving} reportError={reportError} onDraftSaved={() => setMoreView('purchases')}/>}
         {manager && tab === 'more' && loading && <div className="panel" role="status">{t('app.loading')}</div>}
         {manager && tab === 'more' && !loading && stockError && <div className="panel" role="alert"><p>{t('app.stockFail')}: {stockError}</p><button className="text-button" onClick={() => { setLoading(true); refresh().then(() => setStockError('')).catch(value => setStockError(value.message)).finally(() => setLoading(false)) }}>{t('manager.retry')}</button></div>}

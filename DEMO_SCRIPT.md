@@ -1,6 +1,6 @@
 # Kitchen guide and weekly meals demo — fictional, 29 September 2026
 
-Open http://127.0.0.1:3016. Switch to English for the button names below; Hindi is also available and the choice persists. The prepared presentation data need not be reset.
+Open http://127.0.0.1:3016. Switch to English for the button names below; Hindi is also available and the choice persists. The prepared presentation data need not be reset. The visual/search refinement and manager strip have passed engineering acceptance.
 
 The retained 29 September fixture has two older 120-portion dishes under **Needs a meal**. Open Paneer curry there to show its published guidance/photo. In Plan meals, explicitly edit and assign a meal if presenting populated breakfast/lunch/dinner cards; migration deliberately did not guess those assignments or alter portions.
 
@@ -9,6 +9,8 @@ The retained 29 September fixture has two older 120-portion dishes under **Needs
 3. **Guides:** start at the list, then New/Open. Save draft and Publish are separate. Hindi and English are authored and reviewed explicitly; an absent variant names the actual published fallback language. Unsaved edits remain through interface-language and workspace navigation.
 4. **Staff view:** open the dish again. Ask manager opens a short local question form; recording it sends no message. Show the local manager resolution. Optional playback requires a matching local voice; text remains usable without it.
 5. **More:** briefly show Ingredients & buying, Dishes, Stock, Purchases and Records. Expand calculations or lot detail only when needed. A calendar does not reserve stock across dates.
+
+UI refinement tour: search recipes in Plan meals and New Guide by Hindi or English name while preserving selection; inspect manager counts for the selected date (planned entries including unassigned, non-exhausted lots dated before that date, and non-exhausted lots with unknown dates). Lot counts open More → Stock. A failed ingredient load or refresh, including after a write, shows unavailable rather than zero. These dates are review cues, not safety determinations. Existing Questions behavior is unchanged; there is no new question count/filter.
 
 For a disposable stock walkthrough, reset the registered fictional samples in walkthrough mode and choose the returned sample date. Receive Tomatoes 7 kg with a future label and 3 kg with a past label. Add 100 portions of Vegetable pulao to Lunch and 100 of Paneer curry to Dinner. Tomatoes require 15 kg; physical 10/excluded 3/usable 7 produces suggestion 8. Override to 9, receive 8 against the draft and show 1 outstanding. Usable stock becomes 15 and suggestion 0. Remove 3 spoiled from the original 7 kg usable lot: usable 12, suggestion 3. Show edited notes and movement history under Records. The older 120-portion fixture below remains a compatibility case; new controls do not offer 120.
 

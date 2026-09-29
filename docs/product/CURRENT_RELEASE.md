@@ -4,7 +4,7 @@ Updated 29 September 2026. Local software release complete; customer validation 
 
 [GitHub build branch](https://github.com/MedEvolv/restaurant-inventory-management-system/tree/codex/group1-prep-purchase) · [Product documentation](README.md) · [Engineering verification](../../VERIFICATION.md)
 
-The application source was published at commit `4d0962fefb73036d3d7d011ca7dc7fd70406dd10`. Documentation updates follow that source commit; use the branch for the latest documents. Upstream RestaurantIQ history and MIT attribution remain intact. GitHub source publication is not application deployment.
+The prior application release was published at commit `4d0962fefb73036d3d7d011ca7dc7fd70406dd10`. Documentation updates follow that source commit; use the branch for the latest documents. Upstream RestaurantIQ history and MIT attribution remain intact. GitHub source publication is not application deployment.
 
 ## Delivered local functionality
 
@@ -22,7 +22,9 @@ The application source was published at commit `4d0962fefb73036d3d7d011ca7dc7fd7
 
 ## Verified engineering results
 
-39 backend tests;33 frontend tests in9files; zero-warning lint; successful production build. All8 current Chromium laptop/phone workflows passed:6 kitchen/calendar cases in the main run plus2 corrected guidance cases in a final19.3-second run. The earlier main report retains its two failures; it is not relabelled as a single eight-pass report.
+Current UI acceptance: 39 frontend tests in 10 files, clean lint and production build, and all eight isolated laptop/phone browser workflows in one 1.6-minute run. The prior 39 backend tests and recovery checks are reused because the backend is unchanged.
+
+Initial release historical evidence:39 backend tests;33 frontend tests in9files; zero-warning lint; successful production build. All8 initial Chromium laptop/phone workflows passed:6 kitchen/calendar cases in the main run plus2 corrected guidance cases in a final19.3-second run. The earlier main report retains its two failures; it is not relabelled as a single eight-pass report.
 
 FreshV1–V9, actual restart and separate-database dump/import checks passed. Live migration preserved original plans, legacy quantities, guidance/photos/stock, saved drafts and V8 purchase fingerprints.18table checksums remain exact; only identified startup expiry-warning/zero-quantity history appends occurred. Final source integration verified36 accepted app/test/doc hashes before GitHub publication. Final live smoke canceled its form without resetting or reassigning the existing fixture. Detailed artifacts and historical tool limitations remain in VERIFICATION.md.
 
@@ -40,4 +42,10 @@ The dated product package is revised to1.1 while retaining original research ass
 
 ## Recipe data augmentation 29 September 2026
 
-The live demo now has32 active recipes:2 retained plus30 vegetarian Hindi/English demo additions with illustrative per-portion matrices.37 missing ingredients were added with zero stock (44 total). Existing stock/lots/plans/history/notes/drafts and selected purchase estimates stayed identical. Repeating import adds nothing. See [the recipe catalog](../../assets/DEMO_RECIPES.md). This is recipe data, not published methods or a prepared-batch ledger.
+The live demo now has32 active recipes:2 retained plus30 vegetarian Hindi/English demo additions, with illustrative per-portion matrices.37 missing ingredient identities were added with zero stock; total44 ingredients. Existing stock/lots, plans, history, notes, drafts and selected purchase estimates remain unchanged. A repeat import created nothing. This adds recipe data, not published methods, nutrition/expiry policy or prepared-batch stock. See the repository's assets/DEMO_RECIPES.md for the reusable catalog/importer.
+
+## Follow-on UI refinement — integrated 29 September 2026
+
+The RestaurantIQ-inspired navy/blue/white shell, selected-navigation state and readable Hindi/English controls are integrated. Plan meals and New Guide search recipe names in both languages, preserve the selected recipe and portions while typing, and return a clear no-match state. The manager action strip shows selected-date planned entries including unassigned dishes; non-exhausted lots with a recorded label date before the selected plan date; and non-exhausted lots with unknown dates. Both lot counts link to More → Stock. Ingredient loading and refresh failures, including after a write, show unavailable rather than zero. Dates prompt review and make no food-safety determination. The existing Questions flow remains unchanged; no new question count/filter, tables or charts were added. Existing APIs, schema, dependencies and database were unchanged; the 32-recipe catalog and its data remain intact.
+
+Sol accepted 39 frontend tests across 10 files, lint with zero warnings, and a production build of 34 modules. All eight isolated laptop/phone browser workflows passed in 1.6 minutes. Read-only live Playwright confirmed recipe search in both languages, selection/50 portions preserved during search, no-match behavior, Guides search, a 390px Hindi layout without overflow, and zero JavaScript errors. Root integrated 10 application files into the live checkout with SHA guards and backup `.runtime/reviewed-source-backup-20260929T091012Z`. Seven live before/after routes were equal: 32 recipes, 44 ingredients plus stock/lots, calendar, history, drafts, notes and the current-day estimate. The existing 39 backend test result is reused from the prior release because this UI increment changed no backend code. These are engineering results, not customer outcomes. See [the design reuse assessment](RESTAURANTIQ_DESIGN_REUSE.md).
