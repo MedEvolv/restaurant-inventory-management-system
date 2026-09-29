@@ -28,6 +28,8 @@ public class PrepController {
     @PostMapping("/plans") @ResponseStatus(HttpStatus.CREATED) public Map<String,Object> createPlan(@RequestBody Map<String,Object> body) { return planning.savePlan(null,body); }
     @PutMapping("/plans/{id}") public Map<String,Object> editPlan(@PathVariable long id,@RequestBody Map<String,Object> body) { return planning.savePlan(id,body); }
     @DeleteMapping("/plans/{id}") public void deletePlan(@PathVariable long id) { planning.deletePlan(id); }
+    @GetMapping("/calendar") public Map<String,Object> calendar(@RequestParam String start) { return planning.calendar(start); }
+    @PutMapping("/meal-times") public Map<String,Object> mealTime(@RequestBody Map<String,Object> body) { return planning.saveMealTime(body); }
     @PutMapping("/planning-settings/{id}") public Map<String,Object> settings(@PathVariable long id,@RequestBody Map<String,Object> body) { return planning.settings(id,body); }
     @GetMapping("/estimate") public Map<String,Object> estimate(@RequestParam String date) { return planning.estimate(date); }
     @GetMapping("/drafts") public List<Map<String,Object>> drafts() { return workflow.drafts(); }

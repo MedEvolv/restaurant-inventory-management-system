@@ -1,3 +1,38 @@
+# Kitchen guide and weekly meals demo — fictional, 29 September 2026
+
+Open http://127.0.0.1:3016. Switch to English for the button names below; Hindi is also available and the choice persists. The prepared presentation data need not be reset.
+
+The retained 29 September fixture has two older 120-portion dishes under **Needs a meal**. Open Paneer curry there to show its published guidance/photo. In Plan meals, explicitly edit and assign a meal if presenting populated breakfast/lunch/dinner cards; migration deliberately did not guess those assignments or alter portions.
+
+1. **Today:** choose the service date and open a dish under breakfast/lunch/dinner. Show read-only serving times, exact portions/quantities, Current/Missing/Needs review status, published instructions and captioned photos.
+2. **Manager workspace → Plan meals:** navigate the seven-day calendar, including empty dates. Add dish from its meal, choose a recipe and 50 portions. New options are 30, 40, 50, 60, 70, 80, 90, 100. Edit an older 120-portion plan to show its exact value is retained only for that existing plan. Change a time and explicitly Save time; another date remains independent.
+3. **Guides:** start at the list, then New/Open. Save draft and Publish are separate. Hindi and English are authored and reviewed explicitly; an absent variant names the actual published fallback language. Unsaved edits remain through interface-language and workspace navigation.
+4. **Staff view:** open the dish again. Ask manager opens a short local question form; recording it sends no message. Show the local manager resolution. Optional playback requires a matching local voice; text remains usable without it.
+5. **More:** briefly show Ingredients & buying, Dishes, Stock, Purchases and Records. Expand calculations or lot detail only when needed. A calendar does not reserve stock across dates.
+
+For a disposable stock walkthrough, reset the registered fictional samples in walkthrough mode and choose the returned sample date. Receive Tomatoes 7 kg with a future label and 3 kg with a past label. Add 100 portions of Vegetable pulao to Lunch and 100 of Paneer curry to Dinner. Tomatoes require 15 kg; physical 10/excluded 3/usable 7 produces suggestion 8. Override to 9, receive 8 against the draft and show 1 outstanding. Usable stock becomes 15 and suggestion 0. Remove 3 spoiled from the original 7 kg usable lot: usable 12, suggestion 3. Show edited notes and movement history under Records. The older 120-portion fixture below remains a compatibility case; new controls do not offer 120.
+
+Use only explicitly fictional guidance, for example Hindi `काल्पनिक उदाहरण: वास्तविक तैयारी विधि की रसोई प्रमुख से पुष्टि करें।` and English `Fictional example: confirm the real preparation method with the kitchen lead.` Sample photos are illustrations, not kitchen standards. Save a different unpublished draft and show staff retain the prior publication. A recipe composition change instead suppresses old instructions/photos until reviewed republication.
+
+No LLM API is needed. Real kitchen observation/content approval, server permissions, physical-device trials and measured impact remain pilot gates. Prepared batches, chronological reservation and automated external ingestion are later work.
+
+## Historical Hindi release walkthrough — 28 September 2026
+
+The retained steps below document the previous navigation and 120-portion arithmetic. Use the current tour above for the revised interface.
+
+Opening: “When staff face an unfamiliar preparation decision, they can find the published instruction for the scheduled dish or recognize that the responsible person is needed.” This is a local fictional demonstration, not a kitchen task study or safe-production claim.
+
+1. Open Today, select the work date and scheduled dish. The explore seed plans tomorrow; use **कल की योजना देखें**. Show portions and exact ingredient quantities.
+2. Manager workspace → Guidance manager: choose the dish and create an explicitly fictional Hindi draft with owner, method, applicability and next action. Harmless example: “काल्पनिक उदाहरण: रसोई प्रमुख से विधि की पुष्टि करें।” Saving remains a draft; do not turn unreviewed demo text into kitchen policy.
+3. Add a captioned process/portion photo with demo flag. assets/demo-paneer-photo.png and demo-rice-photo.png are AI-generated illustrations, not standards; see assets/DEMO_PHOTOS.md. Review then deliberately publish. Staff view shows owner/version/text/photo/next action. Missing Hindi voice or image leaves text usable.
+4. Record a question with reporter. It goes into the local manager list and sends no message. Show local resolution; urgent decisions need direct contact with the kitchen lead.
+5. Save a revised draft and show staff retain the previous publication until explicit publish. A recipe composition change instead produces review-needed state, suppressing old instructions/photos until reviewed saving and republishing.
+
+Close: the functional flow and technical persistence are checked; no interviews, supervised task study or repeated-service pilot were completed. Staff/manager navigation is not authenticated access. Real content review, permissions, devices/connectivity and the pilot remain gates.
+
+## Preserved Prep & Purchase walkthrough
+
+Enter **Manager workspace** first; planning date remains tomorrow. The earlier walkthrough below preserves exact arithmetic/provenance.
 # 3–5 minute fictional kitchen demo
 
 Opening sentence: “A hostel kitchen manager can turn tomorrow's planned meals and recorded stock into a purchase draft they can check and adjust.” All data below are seeded examples, not observed kitchen outcomes.

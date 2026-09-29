@@ -1,28 +1,140 @@
-import { useCallback,useEffect,useState } from 'react'
+import { useCallback, useEffect, useRef, useState } from 'react'
+import { useLanguage } from './language'
 
-const emptyRecipe=() => ({name:'',ingredients:[{ingredientId:'',quantity:'',unit:'kg'}]})
-export default function PlanPanel({items,planDate,api,mutate,saving,reportError,onDraftSaved}) {
-  const [recipes,setRecipes]=useState([]),[estimate,setEstimate]=useState(null),[recipeForm,setRecipeForm]=useState(null),[planForm,setPlanForm]=useState(null)
-  const [overrides,setOverrides]=useState({}),[requestKey,setRequestKey]=useState(() => crypto.randomUUID())
-  const load=useCallback(async () => { const [r,e]=await Promise.all([api.get('/recipes'),api.get(`/estimate?date=${planDate}`)]); setRecipes(r); setEstimate(e); setOverrides({}); setRequestKey(crypto.randomUUID()) },[api,planDate])
-  useEffect(() => { if(planDate)load().catch(reportError) },[load,items,planDate,reportError])
-  async function change(operation,message) { const result=await mutate(operation,message); if(result)await load(); return result }
-  async function saveRecipe(event) { event.preventDefault(); if(await change(() => recipeForm.id?api.put(`/recipes/${recipeForm.id}`,recipeForm):api.post('/recipes',recipeForm),'Dish saved. Requirements recalculated.'))setRecipeForm(null) }
-  async function savePlan(event) { event.preventDefault(); if(await change(() => planForm.id?api.put(`/plans/${planForm.id}`,{...planForm,date:planDate}):api.post('/plans',{...planForm,date:planDate}),'Meal plan saved.'))setPlanForm(null) }
-  function lineChange(index,key,value) { setRecipeForm({...recipeForm,ingredients:recipeForm.ingredients.map((line,i) => i!==index?line:key==='ingredientId'?{...line,ingredientId:value,unit:items.find(item=>String(item.id)===value)?.unit || 'kg'}:{...line,[key]:value})}) }
-  async function saveDraft(event) { event.preventDefault(); const result=await mutate(() => api.post('/drafts',{date:planDate,fingerprint:estimate.fingerprint,overrides:estimate.lines.map(line=>({ingredientId:line.ingredientId,quantity:overrides[line.ingredientId] ?? line.suggested})),requestKey}),'Purchase draft saved. Recorded stock is unchanged.'); if(result){setRequestKey(crypto.randomUUID());onDraftSaved()} }
-  return <section>
-    <div className="section-heading"><div><p className="eyebrow">FROM MENU TO PURCHASE</p><h1>Tomorrow's plan</h1><p>Plan the dishes. Review your pantry. Decide what to buy.</p></div><div className="actions"><button className="button secondary" disabled={!items.length||saving} onClick={()=>setRecipeForm(emptyRecipe())}>Create dish</button><button className="button" disabled={!recipes.length||saving} onClick={()=>setPlanForm({recipeId:String(recipes[0]?.id || ''),portions:'120'})}>Plan a dish</button></div></div>
-    {recipeForm && <form className="panel form-grid" onSubmit={saveRecipe}><h2 className="full">{recipeForm.id?'Edit dish':'Create dish'}</h2><label className="full">Dish name<input required maxLength={120} value={recipeForm.name} onChange={e=>setRecipeForm({...recipeForm,name:e.target.value})}/></label><p className="muted full">Enter the quantity used for one serving. Use each ingredient once.</p>
-      {recipeForm.ingredients.map((line,index)=><div className="full recipe-row" key={index}><label>Ingredient {index+1}<select required value={line.ingredientId} onChange={e=>lineChange(index,'ingredientId',e.target.value)}><option value="">Choose ingredient</option>{items.map(item=><option key={item.id} value={item.id}>{item.name}</option>)}</select></label><label>Per serving {index+1}<input required type="number" min="0.000001" step="any" value={line.quantity} onChange={e=>lineChange(index,'quantity',e.target.value)}/></label><label>Unit {index+1}<select value={line.unit} onChange={e=>lineChange(index,'unit',e.target.value)}>{['kg','g','L','ml','count'].map(u=><option key={u}>{u}</option>)}</select></label><button type="button" className="text-button" aria-label={`Remove ingredient ${index+1}`} disabled={recipeForm.ingredients.length===1} onClick={()=>setRecipeForm({...recipeForm,ingredients:recipeForm.ingredients.filter((_,i)=>i!==index)})}>×</button></div>)}
-      <div className="full"><button type="button" className="text-button" disabled={recipeForm.ingredients.length>=50} onClick={()=>setRecipeForm({...recipeForm,ingredients:[...recipeForm.ingredients,{ingredientId:'',quantity:'',unit:'kg'}]})}>+ Add recipe ingredient</button></div><div className="full form-footer"><button className="button" disabled={saving}>Save dish</button><button type="button" className="text-button" onClick={()=>setRecipeForm(null)}>Cancel</button></div>
-    </form>}
-    {planForm && <form className="panel form-grid" onSubmit={savePlan}><h2 className="full">{planForm.id?'Edit planned dish':'Plan a dish'} · {planDate}</h2><label>Dish<select required value={planForm.recipeId} onChange={e=>setPlanForm({...planForm,recipeId:e.target.value})}>{recipes.map(recipe=><option key={recipe.id} value={recipe.id}>{recipe.name}</option>)}</select></label><label>Portions / covers<input required type="number" min="1" max="100000" step="1" value={planForm.portions} onChange={e=>setPlanForm({...planForm,portions:e.target.value})}/></label><div className="full form-footer"><button className="button" disabled={saving}>Save planned dish</button><button type="button" className="text-button" onClick={()=>setPlanForm(null)}>Cancel</button></div></form>}
-    <div className="two-column"><div className="panel"><div className="section-title"><h2>What are we cooking?</h2><span className="plan-date">{planDate}</span></div>{!estimate?.plans.length&&<p className="muted">No dishes planned for this date. Choose a dish and its portions.</p>}{estimate?.plans.map(plan=><div className="compact-row" key={plan.id}><div><strong>{plan.name}</strong><small>{plan.portions} portions</small></div><button className="text-button push" disabled={saving} onClick={()=>setPlanForm({...plan,recipeId:String(plan.recipeId),portions:String(plan.portions)})}>Edit {plan.name}</button><button className="text-button" disabled={saving} onClick={()=>change(()=>api.remove(`/plans/${plan.id}`),'Planned dish removed.').catch(reportError)}>Remove {plan.name}</button></div>)}</div>
-      <div className="panel"><h2>Your dishes</h2>{!recipes.length&&<p className="muted">Create your first dish after adding ingredients in Stock & dates.</p>}{recipes.map(recipe=><div className="compact-row" key={recipe.id}><div><strong>{recipe.name}</strong><small>{recipe.ingredients.length} ingredients per serving</small></div><button className="text-button push" disabled={saving} onClick={()=>setRecipeForm({...recipe,ingredients:recipe.ingredients.map(l=>({...l,ingredientId:String(l.ingredientId)}))})}>Edit recipe {recipe.name}</button><button className="text-button" disabled={saving} onClick={()=>change(()=>api.remove(`/recipes/${recipe.id}`),'Dish archived.').catch(reportError)}>Archive {recipe.name}</button></div>)}</div></div>
-    {estimate?.lines.length>0&&<><div className="panel"><h2>What do we have, and what needs review?</h2><p className="muted">Entered dates before {planDate} are excluded from this estimate. Unknown dates stay in recorded usable stock and require manager review. No lot is automatically marked as waste.</p><div className="table-wrap"><table><thead><tr><th>Ingredient</th><th>Required</th><th>On hand</th><th>Date excluded</th><th>Usable</th><th>Buffer</th><th>Buy</th></tr></thead><tbody>{estimate.lines.map(line=><tr key={line.ingredientId} data-testid={`estimate-${line.name}`}><td><strong>{line.name}</strong><div className="muted small">All quantities in {line.unit}</div>{line.reviewLots.length>0&&<div className="badge review">{line.reviewLots.length} lot(s) need review</div>}</td>{['required','onHand','excluded','usable','buffer','suggested'].map(key=><td key={key} data-testid={key}>{line[key]}</td>)}</tr>)}</tbody></table></div></div>
-      {estimate.lines.map(line=><div className="panel" key={line.ingredientId}><div className="section-title"><h2>{line.name} · arithmetic</h2><span className="badge">{line.unit}</span></div>{line.breakdown.map((b,i)=><p className="arithmetic" key={i}>{b.dish}: {b.portions} × {b.perServing} {line.unit} = {b.required} {line.unit}</p>)}<p className="arithmetic">max(0, {line.required} required + {line.buffer} buffer − {line.usable} usable) = {line.rawSuggestion} {line.unit}{Number(line.increment)>0?`; rounded up to ${line.increment} ${line.unit} steps = ${line.suggested} ${line.unit}`:''}</p>{line.reviewLots.map(l=><p className="muted small" key={l.lotId}>Lot #{l.lotId}: {l.quantity} {line.unit} · {l.labelDate || 'Date unknown'} · {l.excluded?'excluded pending review':'manager review needed'}</p>)}<Settings key={`${estimate.fingerprint}-${line.ingredientId}`} line={line} date={planDate} save={body=>change(()=>api.put(`/planning-settings/${line.ingredientId}`,body),'Planning settings saved.')} saving={saving}/></div>)}
-      <form className="panel accent-panel" onSubmit={saveDraft}><h2>What should we order?</h2><p className="muted">Review and edit the quantities below. This saves a draft for your decision; it does not place an order or add stock.</p><div className="table-wrap"><table><thead><tr><th>Ingredient</th><th>Suggested</th><th>Your draft quantity</th></tr></thead><tbody>{estimate.lines.map(line=><tr key={line.ingredientId}><td>{line.name} ({line.unit})</td><td>{line.suggested}</td><td><input aria-label={`Draft quantity ${line.name}`} required type="number" min="0" step="any" value={overrides[line.ingredientId] ?? line.suggested} onChange={e=>setOverrides({...overrides,[line.ingredientId]:e.target.value})}/></td></tr>)}</tbody></table></div><button className="button" disabled={saving}>Save purchase draft</button></form></>}
+const SLOTS = ['BREAKFAST', 'LUNCH', 'DINNER']
+const PORTIONS = [30, 40, 50, 60, 70, 80, 90, 100]
+const pad = value => String(value).padStart(2, '0')
+function parseDate(value) { const [year, month, day] = value.split('-').map(Number); return new Date(Date.UTC(year, month - 1, day)) }
+function formatDate(date) { return `${date.getUTCFullYear()}-${pad(date.getUTCMonth() + 1)}-${pad(date.getUTCDate())}` }
+function validDate(value) { if (!/^\d{4}-\d{2}-\d{2}$/.test(value || '')) return false; return formatDate(parseDate(value)) === value }
+function shiftDate(value, days) { const date = parseDate(value); date.setUTCDate(date.getUTCDate() + days); return formatDate(date) }
+function mondayOf(value) { const date = parseDate(value); date.setUTCDate(date.getUTCDate() - (date.getUTCDay() + 6) % 7); return formatDate(date) }
+const emptyRecipe = () => ({ name: '', ingredients: [{ ingredientId: '', quantity: '', unit: 'kg' }] })
+
+export default function PlanPanel({ items, planDate, api, mutate, saving, reportError, onDraftSaved, view = 'menu', onDateChange, onBusyChange }) {
+  const { language, t } = useLanguage()
+  const [weekStart, setWeekStart] = useState(() => mondayOf(planDate))
+  const [days, setDays] = useState([])
+  const [calendarLoading, setCalendarLoading] = useState(true)
+  const [calendarError, setCalendarError] = useState('')
+  const [recipes, setRecipes] = useState([])
+  const [estimate, setEstimate] = useState(null)
+  const [estimateDate, setEstimateDate] = useState('')
+  const [dayLoading, setDayLoading] = useState(true)
+  const [recipeForm, setRecipeForm] = useState(null)
+  const [planForm, setPlanForm] = useState(null)
+  const [overrides, setOverrides] = useState({})
+  const [requestKey, setRequestKey] = useState(() => crypto.randomUUID())
+  const [localBusy, setLocalBusy] = useState(false)
+  const [timeValues, setTimeValues] = useState({})
+  const [timeBusy, setTimeBusy] = useState('')
+  const [timeError, setTimeError] = useState('')
+  const requestSequence = useRef(0)
+  const dateSequence = useRef(0)
+  const previousDate = useRef(planDate)
+  const planFormRef = useRef(null)
+  const returnFocus = useRef(null)
+  const focusFormPending = useRef(false)
+  const busy = saving || localBusy || Boolean(timeBusy)
+  const selected = days.find(day => day.date === planDate)
+  const selectedReady = Boolean(selected && estimateDate === planDate && !dayLoading && !calendarLoading)
+  useEffect(() => { onBusyChange?.(busy) }, [busy, onBusyChange])
+  useEffect(() => () => onBusyChange?.(false), [onBusyChange])
+  useEffect(() => {
+    if (planForm && focusFormPending.current) {
+      focusFormPending.current = false
+      planFormRef.current?.scrollIntoView?.({ behavior: 'smooth', block: 'nearest' })
+      planFormRef.current?.querySelector('select')?.focus()
+    }
+  }, [planForm])
+
+  const loadWeek = useCallback(async (start = weekStart) => {
+    const sequence = ++requestSequence.current
+    setCalendarLoading(true); setCalendarError(''); setDays([])
+    try {
+      const result = await api.get(`/calendar?start=${start}`)
+      if (sequence === requestSequence.current) setDays(result.days || [])
+    } catch (error) { if (sequence === requestSequence.current) { setDays([]); setCalendarError(error.message); reportError(error) } }
+    finally { if (sequence === requestSequence.current) setCalendarLoading(false) }
+  }, [api, reportError, weekStart])
+  useEffect(() => { loadWeek() }, [loadWeek])
+  useEffect(() => {
+    if (previousDate.current !== planDate) {
+      previousDate.current = planDate
+      setWeekStart(mondayOf(planDate))
+      setTimeValues({})
+      setPlanForm(null)
+      setRecipeForm(null)
+    }
+  }, [planDate])
+
+  const loadDay = useCallback(async () => {
+    if (!planDate) return
+    const sequence = ++dateSequence.current
+    setDayLoading(true); setEstimate(null); setEstimateDate('')
+    try {
+      const [r, e] = await Promise.all([api.get('/recipes'), api.get(`/estimate?date=${planDate}`)])
+      if (sequence === dateSequence.current) { setRecipes(r); setEstimate(e); setEstimateDate(planDate); setOverrides({}); setRequestKey(crypto.randomUUID()) }
+    } catch (error) { if (sequence === dateSequence.current) reportError(error) }
+    finally { if (sequence === dateSequence.current) setDayLoading(false) }
+  }, [api, planDate, reportError])
+  useEffect(() => { loadDay() }, [loadDay, items])
+
+  async function reloadCurrent() { await Promise.all([loadWeek(weekStart), loadDay()]) }
+  async function change(operation, message) {
+    setLocalBusy(true)
+    try { const result = await mutate(operation, message); if (result) { await reloadCurrent() } return result }
+    finally { setLocalBusy(false) }
+  }
+  async function saveRecipe(event) { event.preventDefault(); if (await change(() => recipeForm.id ? api.put(`/recipes/${recipeForm.id}`, recipeForm) : api.post('/recipes', recipeForm), {key:'support.dishSaved'})) setRecipeForm(null) }
+  async function savePlan(event) { event.preventDefault(); const { legacyPortions, ...payload } = planForm; const normalizedPayload = { ...payload, recipeId: Number(payload.recipeId), date: planDate, portions: Number(planForm.portions) }; if (await change(() => planForm.id ? api.put(`/plans/${planForm.id}`, normalizedPayload) : api.post('/plans', normalizedPayload), {key:'support.planSaved'})) setPlanForm(null) }
+  async function saveTime(slot) {
+    const serveTime = timeValues[slot] ?? selected?.mealTimes?.[slot] ?? ''
+    setTimeBusy(slot); setTimeError('')
+    try { await api.put('/meal-times', { date: planDate, mealSlot: slot, serveTime }); await reloadCurrent(); setTimeValues(values => { const next = { ...values }; delete next[slot]; return next }) }
+    catch (error) { setTimeError(error.message) }
+    finally { setTimeBusy('') }
+  }
+  function chooseDate(date) { if (!busy && validDate(date) && date !== planDate) { setTimeValues({}); setPlanForm(null); setRecipeForm(null); onDateChange(date) } }
+  function openPlanForm(form, event) { returnFocus.current = event.currentTarget; focusFormPending.current = true; setPlanForm(form) }
+  function closePlanForm() { setPlanForm(null); returnFocus.current?.focus() }
+  function lineChange(index, key, value) { setRecipeForm({ ...recipeForm, ingredients: recipeForm.ingredients.map((line, i) => i !== index ? line : key === 'ingredientId' ? { ...line, ingredientId: value, unit: items.find(item => String(item.id) === value)?.unit || 'kg' } : { ...line, [key]: value }) }) }
+  async function saveDraft(event) {
+    event.preventDefault()
+    const result = await mutate(() => api.post('/drafts', { date: planDate, fingerprint: estimate.fingerprint, overrides: estimate.lines.map(line => ({ ingredientId: line.ingredientId, quantity: overrides[line.ingredientId] ?? line.suggested })), requestKey }), {key:'support.draftSaved'})
+    if (result) { setRequestKey(crypto.randomUUID()); onDraftSaved() }
+  }
+  const dayLabel = date => new Intl.DateTimeFormat(language === 'hi' ? 'hi-IN' : 'en-GB', { weekday: 'short', day: 'numeric', month: 'short', timeZone: 'UTC' }).format(parseDate(date))
+  const mealLabel = slot => t(`plan.${slot.toLowerCase()}`)
+
+  return <section className="planner">
+    <div className="section-heading"><div><p className="eyebrow">{t('plan.eyebrow')}</p><h1>{view === 'menu' ? t('plan.title') : view === 'ingredients' ? t('plan.ingredients') : t('plan.dishes')}</h1><p>{view === 'menu' ? t('plan.intro') : t('plan.scopeDate', { date: planDate })}</p></div></div>
+    {view === 'menu' && <>
+      <div className="calendar-toolbar" aria-label={t('plan.calendar')}><button type="button" className="button secondary" disabled={busy} onClick={() => { const date = shiftDate(planDate, -7); setWeekStart(mondayOf(date)); chooseDate(date) }}>{t('plan.previousWeek')}</button><button type="button" className="button secondary" disabled={busy} onClick={() => { const today = new Intl.DateTimeFormat('en-CA', { timeZone: 'Asia/Kolkata', year: 'numeric', month: '2-digit', day: '2-digit' }).format(new Date()); setWeekStart(mondayOf(today)); chooseDate(today) }}>{t('plan.thisWeek')}</button><button type="button" className="button secondary" disabled={busy} onClick={() => { const date = shiftDate(planDate, 7); setWeekStart(mondayOf(date)); chooseDate(date) }}>{t('plan.nextWeek')}</button><label>{t('plan.chooseDate')}<input aria-label={t('plan.chooseDate')} type="date" value={planDate} disabled={busy} onChange={event => { const date = event.target.value; if (validDate(date)) { setWeekStart(mondayOf(date)); chooseDate(date) } }}/></label></div>
+      {calendarError ? <p className="alert error" role="alert">{t('plan.calendarFailed', { error: calendarError })}<button type="button" className="text-button" onClick={() => loadWeek()}>{t('today.retry')}</button></p> : <div className="calendar-grid" role="group" aria-label={t('plan.calendar')}>{days.map(day => <button type="button" key={day.date} aria-label={t('plan.dayAria', { day: dayLabel(day.date), count: day.plans?.length || 0 })} aria-pressed={day.date === planDate} aria-selected={day.date === planDate} className={`calendar-day${day.date === planDate ? ' selected' : ''}`} onClick={() => chooseDate(day.date)}><span>{dayLabel(day.date)}</span><small>{t('plan.dishCount', { count: day.plans?.length || 0 })}</small></button>)}</div>}
+      <h2 className="selected-date">{validDate(planDate) ? dayLabel(planDate) : ''} <span>{planDate}</span></h2>
+      {dayLoading && <p className="muted" role="status">{t('plan.loadingDate')}</p>}
+      {SLOTS.map(slot => {
+        const plans = (selected?.plans || []).filter(plan => (plan.mealSlot || 'UNASSIGNED') === slot)
+        const time = timeValues[slot] ?? selected?.mealTimes?.[slot] ?? ''
+        return <section className="meal-card" key={slot} aria-labelledby={`meal-${slot}`}><header className="meal-heading"><div><h2 id={`meal-${slot}`}>{mealLabel(slot)}</h2><p className="muted">{selectedReady ? plans.length ? t('plan.mealCount', { count: plans.length }) : t('plan.emptyMeal') : t('plan.loadingDate')}</p></div><div className="meal-time"><label>{t('plan.serveTime')}<input aria-label={`${t('plan.serveTime')} · ${mealLabel(slot)}`} type="time" value={time} disabled={busy || !selectedReady} onChange={event => setTimeValues(values => ({ ...values, [slot]: event.target.value }))}/></label><button type="button" className="text-button" disabled={busy || !selectedReady || !time || time === selected?.mealTimes?.[slot]} onClick={() => saveTime(slot)}>{timeBusy === slot ? t('plan.saving') : t('plan.saveTime')}</button></div></header>
+          {selectedReady && plans.map(plan => <div className="planned-dish" key={plan.id}><div><strong>{plan.name || recipes.find(recipe => recipe.id === plan.recipeId)?.name}</strong><small>{plan.portions} {t('plan.portions')} · {plan.serveTime || time}</small></div><button type="button" className="text-button" disabled={busy || !selectedReady} onClick={event => openPlanForm({ ...plan, recipeId: String(plan.recipeId), portions: String(plan.portions), legacyPortions: Number(plan.portions), mealSlot: plan.mealSlot || 'UNASSIGNED' }, event)}>{t('plan.edit')}</button><button type="button" className="text-button" disabled={busy || !selectedReady} onClick={() => change(() => api.remove(`/plans/${plan.id}`), {key:'support.planRemoved'})}>{t('plan.remove')}</button></div>)}
+          {!plans.length && <p className="meal-empty">{t('plan.emptyNext')}</p>}
+          <button type="button" className="button secondary" disabled={!selectedReady || !recipes.length || busy} onClick={event => openPlanForm({ recipeId: String(recipes[0]?.id || ''), portions: '50', mealSlot: slot }, event)}>{t('plan.addDish')}</button>
+        </section>
+      })}
+      {selectedReady && Boolean(selected?.plans?.some(plan => !SLOTS.includes(plan.mealSlot))) && <section className="meal-card"><h2>{t('plan.unassigned')}</h2>{selected.plans.filter(plan => !SLOTS.includes(plan.mealSlot)).map(plan => <div className="planned-dish" key={plan.id}><div><strong>{plan.name}</strong><small>{plan.portions} {t('plan.portions')}</small></div><button type="button" className="text-button" disabled={busy || !selectedReady} onClick={event => openPlanForm({ ...plan, recipeId: String(plan.recipeId), portions: String(plan.portions), legacyPortions: Number(plan.portions), mealSlot: 'UNASSIGNED' }, event)}>{t('plan.edit')}</button><button type="button" className="text-button" disabled={busy || !selectedReady} onClick={() => change(() => api.remove(`/plans/${plan.id}`), {key:'support.planRemoved'})}>{t('plan.remove')}</button></div>)}</section>}
+    </>}
+    {timeError && <p className="alert error" role="alert">{timeError}</p>}
+    {planForm && <form ref={planFormRef} className="panel form-grid plan-editor" onSubmit={savePlan}><h2 className="full">{planForm.id ? t('plan.editDish') : t('plan.addDish')} · {planDate}</h2><label>{t('plan.dish')}<select required disabled={busy} value={planForm.recipeId} onChange={event => setPlanForm({ ...planForm, recipeId: event.target.value })}>{recipes.map(recipe => <option key={recipe.id} value={recipe.id}>{recipe.name}</option>)}</select></label><label>{t('plan.portionsLabel')}<select aria-label={t('plan.portionsLabel')} required disabled={busy} value={String(planForm.portions)} onChange={event => setPlanForm({ ...planForm, portions: event.target.value })}>{PORTIONS.map(value => <option key={value} value={value}>{value}</option>)}{planForm.legacyPortions && !PORTIONS.includes(planForm.legacyPortions) && <option value={planForm.legacyPortions}>{t('plan.existingPortions', { count: planForm.legacyPortions })}</option>}</select></label><label>{t('plan.meal')}<select aria-label={t('plan.meal')} disabled={busy} value={planForm.mealSlot} onChange={event => setPlanForm({ ...planForm, mealSlot: event.target.value })}><option value="UNASSIGNED">{t('plan.unassigned')}</option>{SLOTS.map(slot => <option key={slot} value={slot}>{mealLabel(slot)}</option>)}</select></label><div className="full form-footer"><button className="button" disabled={busy}>{t('plan.saveDish')}</button><button type="button" className="text-button" disabled={busy} onClick={closePlanForm}>{t('plan.cancel')}</button></div></form>}
+    {view === 'dishes' && <><div className="actions"><button className="button" disabled={!items.length || busy} onClick={() => setRecipeForm(emptyRecipe())}>{t('plan.createDish')}</button></div><div className="panel">{!recipes.length && <p className="muted">{t('plan.noDishes')}</p>}{recipes.map(recipe => <div className="planned-dish" key={recipe.id}><div><strong>{recipe.name}</strong><small>{recipe.ingredients.length} {t('plan.ingredientsCount')}</small></div><button type="button" className="text-button" disabled={busy} onClick={() => setRecipeForm({ ...recipe, ingredients: recipe.ingredients.map(line => ({ ...line, ingredientId: String(line.ingredientId) })) })}>{t('plan.editDish')}</button><button type="button" className="text-button" disabled={busy} onClick={() => change(() => api.remove(`/recipes/${recipe.id}`), {key:'support.dishArchived'})}>{t('plan.archive')}</button></div>)}</div></>}
+    {recipeForm && <form className="panel form-grid" onSubmit={saveRecipe}><h2 className="full">{recipeForm.id ? t('plan.editDish') : t('plan.createDish')}</h2><label className="full">{t('plan.dishName')}<input required disabled={busy} maxLength={120} value={recipeForm.name} onChange={event => setRecipeForm({ ...recipeForm, name: event.target.value })}/></label><p className="muted full">{t('plan.perServing')}</p>{recipeForm.ingredients.map((line, index) => <div className="full recipe-row" key={index}><label>{t('plan.ingredient')} {index + 1}<select required disabled={busy} value={line.ingredientId} onChange={event => lineChange(index, 'ingredientId', event.target.value)}><option value="">{t('plan.chooseIngredient')}</option>{items.map(item => <option key={item.id} value={item.id}>{item.name}</option>)}</select></label><label>{t('plan.quantity')}<input required disabled={busy} type="number" min="0.000001" step="any" value={line.quantity} onChange={event => lineChange(index, 'quantity', event.target.value)}/></label><label>{t('plan.unit')}<select disabled={busy} value={line.unit} onChange={event => lineChange(index, 'unit', event.target.value)}>{['kg', 'g', 'L', 'ml', 'count'].map(unit => <option key={unit}>{unit}</option>)}</select></label><button type="button" className="text-button" aria-label={t('plan.removeIngredient', { count: index + 1 })} disabled={busy || recipeForm.ingredients.length === 1} onClick={() => setRecipeForm({ ...recipeForm, ingredients: recipeForm.ingredients.filter((_, i) => i !== index) })}>×</button></div>)}<div className="full"><button type="button" className="text-button" disabled={busy || recipeForm.ingredients.length >= 50} onClick={() => setRecipeForm({ ...recipeForm, ingredients: [...recipeForm.ingredients, { ingredientId: '', quantity: '', unit: 'kg' }] })}>{t('plan.addIngredient')}</button></div><div className="full form-footer"><button className="button" disabled={busy}>{t('plan.saveRecipe')}</button><button type="button" className="text-button" disabled={busy} onClick={() => setRecipeForm(null)}>{t('plan.cancel')}</button></div></form>}
+    {view === 'ingredients' && <>{estimate?.lines.length ? <><div className="panel"><h2>{t('plan.requirements')}</h2><p className="muted">{t('plan.requirementsNote', { date: planDate })}</p><div className="table-wrap"><table><thead><tr>{['plan.colIngredient','plan.colRequired','plan.colOnHand','plan.colExcluded','plan.colUsable','plan.colBuffer','plan.colBuy'].map(key => <th key={key}>{t(key)}</th>)}</tr></thead><tbody>{estimate.lines.map(line => <tr key={line.ingredientId} data-testid={`estimate-${line.name}`}><td>{line.name} ({line.unit})</td>{['required', 'onHand', 'excluded', 'usable', 'buffer', 'suggested'].map(key => <td key={key} data-testid={key}>{line[key]}</td>)}</tr>)}</tbody></table></div></div>{estimate.lines.map(line => <details className="panel support-disclosure" key={line.ingredientId}><summary>{line.name} · {t('plan.mathDetails')}</summary><div><h3>{t('plan.arithmetic')}</h3>{line.breakdown.map((b, index) => <p className="arithmetic" key={index}>{b.dish}: {b.portions} × {b.perServing} {line.unit} = {b.required} {line.unit}</p>)}<p className="arithmetic">max(0, {line.required} {t('support.required')} + {line.buffer} {t('support.buffer').toLowerCase()} − {line.usable} {t('plan.colUsable').toLowerCase()}) = {line.rawSuggestion} {line.unit}{Number(line.increment) > 0 ? t('plan.roundedInSteps',{count:line.increment,suggested:line.suggested,unit:line.unit}) : ''}</p>{line.reviewLots.map(lot => <p className="muted small" key={lot.lotId}>Lot #{lot.lotId}: {lot.quantity} {line.unit} · {lot.labelDate || t('plan.unknownDate')} · {lot.excluded ? t('plan.excluded') : t('plan.review')}</p>)}<Settings key={`${estimate.fingerprint}-${line.ingredientId}`} line={line} date={planDate} save={body => change(() => api.put(`/planning-settings/${line.ingredientId}`, body), {key:'support.settingsSaved'})} saving={busy}/></div></details>)}<details className="panel accent-panel support-disclosure"><summary>{t('plan.purchaseAction')}</summary><form onSubmit={saveDraft}><h2>{t('plan.buyDraft')}</h2><p className="muted">{t('plan.buyDraftNote')}</p><div className="table-wrap"><table><thead><tr><th>{t('plan.ingredient')}</th><th>{t('plan.suggested')}</th><th>{t('plan.draftQuantity')}</th></tr></thead><tbody>{estimate.lines.map(line => <tr key={line.ingredientId}><td>{line.name} ({line.unit})</td><td>{line.suggested}</td><td><input aria-label={t('plan.draftFor', { name: line.name })} disabled={busy} required type="number" min="0" step="any" value={overrides[line.ingredientId] ?? line.suggested} onChange={event => setOverrides({ ...overrides, [line.ingredientId]: event.target.value })}/></td></tr>)}</tbody></table></div><button className="button" disabled={busy}>{t('plan.saveDraft')}</button></form></details></> : <p className="panel">{t('plan.noRequirements')}</p>}</>}
   </section>
 }
-function Settings({line,date,save,saving}) { const [buffer,setBuffer]=useState(line.buffer),[increment,setIncrement]=useState(line.increment); return <form className="form-grid" onSubmit={e=>{e.preventDefault();save({date,buffer,increment,unit:line.unit})}}><label>Buffer for {line.name}<input required type="number" min="0" step="any" value={buffer} onChange={e=>setBuffer(e.target.value)}/></label><label>Purchase increment for {line.name}<input required type="number" min="0" step="any" value={increment} onChange={e=>setIncrement(e.target.value)}/></label><div className="full form-footer"><button className="button secondary" disabled={saving}>Apply settings for {line.name}</button><span className="muted">Buffer is extra stock you choose for this date. Zero adds none. Increment is a purchase step; zero keeps the exact suggestion.</span></div></form> }
+function Settings({ line, date, save, saving }) {
+  const { t } = useLanguage()
+  const [buffer, setBuffer] = useState(line.buffer)
+  const [increment, setIncrement] = useState(line.increment)
+  return <form className="form-grid" onSubmit={event => { event.preventDefault(); save({ date, buffer, increment, unit: line.unit }) }}><label>{t('plan.bufferFor', { name: line.name })}<input required disabled={saving} type="number" min="0" step="any" value={buffer} onChange={event => setBuffer(event.target.value)}/></label><label>{t('plan.incrementFor', { name: line.name })}<input required disabled={saving} type="number" min="0" step="any" value={increment} onChange={event => setIncrement(event.target.value)}/></label><div className="full form-footer"><button className="button secondary" disabled={saving}>{t('plan.applySettings', { name: line.name })}</button><span className="muted">{t('plan.settingsHelp')}</span></div></form>
+}

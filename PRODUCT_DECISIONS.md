@@ -1,10 +1,10 @@
 # Product decisions and evidence boundaries
 
-## Scope
+## Prior planning scope
 
-One hostel/institutional kitchen, one manager or head chef, one planning date. The build serves tomorrow's prep-to-purchase decision. The submitted capstone described timely, trusted food guidance; later working notes emphasized inventory and spoilage and also discussed an independent restaurant niche. This MVP follows the supplied hostel workflow and retains **manager-authored handling/substitution guidance** as the bridge. It does not claim the earlier research established inventory as the dominant pain. No real interview recordings or measured savings were available for this build.
+One hostel/institutional kitchen, one manager or head chef, one planning date. The original build served tomorrow's prep-to-purchase decision. The submitted capstone described timely, trusted food guidance; later working notes emphasized inventory and spoilage and also discussed an independent restaurant niche. This MVP follows the supplied hostel workflow and retains **manager-authored handling/substitution guidance** as the bridge. It does not claim the earlier research established inventory as the dominant pain. No real interview recordings or measured savings were available for this build.
 
-## Prioritized release
+## Preserved planning baseline
 
 | Priority | User story | Acceptance |
 |---|---|---|
@@ -40,8 +40,38 @@ POS, billing, multi-site access, supplier marketplaces/messaging, automatic fore
 5. Managers want a reviewable draft and retain authority over quantity changes. Record actual override reasons.
 6. A local single-manager workflow is enough for a pilot. Determine role, device, connectivity and reconciliation needs before hosting.
 
-## Next releases and pilot
+## Prior planning roadmap (retained context)
 
 R1 is this functional local demo. A hosted pilot adds server authentication, environment hardening, supported migration dependencies, backups, explicit counted-increase adjustments and reconciliation, and tests on an actual kitchen phone. R2 follows evidence: waste cost reporting with price provenance, notifications or supplier export only if they solve observed work.
 
 Start a small design-partner pilot with one hostel kitchen after validating the decision moment. Recruit the manager and receiving/prep staff together; observe a complete planning and receipt cycle. Measure current planning time and manual corrections, then compare the pilot. Do not promise waste or money savings from seeded arithmetic. The proposition is a clearer, reviewable purchase decision; pricing and adoption remain hypotheses.
+
+## Focused Phase 2 decisions — 28 September 2026
+
+Current lead: staff Today → scheduled dish → applicable published Hindi method/notes/task photos/current quantities → recorded next action or explicit escalation. The professional-kitchen job remains a hypothesis; Hindi and Delhi–Gurgaon are confirmed rollout choices. Implementation was authorized after the phased roadmap. No interview, observed kitchen task, adoption result or savings claim was fabricated.
+
+- Separate guidance documents from legacy notes: mutable versioned drafts, immutable publications, explicit ownership/applicability/next action and demo labels; no automatic approval.
+- Recipe-context fingerprint includes active status, recipe/ingredient names, IDs and per-serving units/quantities. Changed context suppresses old staff instructions/photos; date/covers changes only scale quantities. Managers preserve history and explicitly review/save/republish.
+- Today quantities remain server BigDecimal arithmetic in original recipe units. No food-safety or expiry inference.
+- Validated persistent JPEG/PNG task media has frozen publication membership and missing-image fallback. AI-generated fixtures remain fictional illustrations.
+- Local unanswered questions have reporter/date, stable uncertain retry key and manager resolution. No message or notification delivery.
+- Optional browser playback requires device-local Hindi voice; text always remains. No microphone/STT/LLM/speech API; its user value remains untested.
+- Local staff/manager views are not permission enforcement. Real content review, auth/data access and deployment backup/recovery are pilot gates.
+- Original lot/planning/draft/receipt/waste/usage/notes remain. A reproduced original PlanPanel reload race was corrected.
+
+Engineering checks verify contracts, persistence and UI behavior, not correct independent food preparation. Research and one-kitchen pilot are outstanding. Intermediate-batch and chronological stock-reservation branches require actual recurring incidents, rather than automatic expansion.
+
+## Approved calendar and usability increment — 29 September 2026
+
+The user's direct request for an urgent demo, weekly calendar, breakfast/lunch/dinner, serving times and 30–100 portions authorizes this bounded local calendar now. The approved persona-aligned design report is the implementation target; this supersedes the earlier calendar deferral without creating customer-research evidence.
+
+- P01 opens Today, reads exact assigned quantities and applicable published guidance, and asks the manager when needed. P02 uses Plan meals, Guides and More, with support operations secondary.
+- New plans default to 50 and offer 30–100 by 10. Existing quantities outside that range stay exact as an option for that existing plan only; old plans migrate to UNASSIGNED without inferred meal classification.
+- Serving times belong to date plus meal. Defaults 08:00/13:00/20:00 are derived until an explicit manager save; staff see them read-only. Strict HH:mm validation rejects 24:00.
+- Counts describe dish entries and dish portions, not unique diners. The daily estimator includes all meals once. A weekly calendar does not reserve stock across dates.
+- Scheduling is excluded from preparation context and from the original V8 purchase fingerprint projection. Genuine portion/recipe/stock/settings changes still affect purchase snapshots as appropriate.
+- Hindi/English interface choice persists. Publication freezes only explicitly reviewed authored languages; fallback names the actual content language. No machine translation or LLM is introduced.
+- Guide authoring starts with a list and focused New/Open editor. Save and Publish remain distinct. Unsaved bilingual work survives interface-language and workspace navigation; media/source detail is secondary.
+- Existing receipts/cost, lot dates, overrides/partial arrivals, waste/usage/count decreases, notes and history remain reachable under More. Reset is initially collapsed and retains explicit confirmation.
+
+Fresh/upgrade/restart/restore and browser checks are local engineering gates. Actual kitchen content approval, protected server roles and device observation remain pilot gates. Comparator patterns support layout choices, not measured improvements. Prepared batches and EatByDate automated ingestion are not implemented by this increment.

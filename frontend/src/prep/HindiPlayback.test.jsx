@@ -1,0 +1,18 @@
+import { afterEach,describe,expect,it,vi } from 'vitest'
+import { render,screen,fireEvent,cleanup,act } from '@testing-library/react'
+import HindiPlayback from './HindiPlayback'
+import LanguageProvider from './LanguageProvider'
+
+let voices,utterances,synth,Utterance,voicesChanged
+function setup(api=true){
+  voices=[];utterances=[];voicesChanged=null;synth={getVoices:vi.fn(()=>voices),speak:vi.fn(u=>utterances.push(u)),cancel:vi.fn(),addEventListener:vi.fn((_,fn)=>{voicesChanged=fn}),removeEventListener:vi.fn()};Utterance=class{constructor(text){this.text=text}}
+  if(api){Object.defineProperty(window,'speechSynthesis',{configurable:true,value:synth});Object.defineProperty(window,'SpeechSynthesisUtterance',{configurable:true,value:Utterance})}else{delete window.speechSynthesis;delete window.SpeechSynthesisUtterance}
+}
+afterEach(()=>{cleanup();localStorage.clear();vi.restoreAllMocks()})
+describe('optional device-local Hindi playback',()=>{
+ it('offers readable instructions when speech APIs are unavailable',()=>{setup(false);render(<HindiPlayback text="निर्देश"/>);expect(screen.getByRole('status')).toHaveTextContent(/स्थानीय हिंदी आवाज़ उपलब्ध नहीं/);expect(screen.queryByRole('button',{name:'निर्देश सुनें'})).not.toBeInTheDocument()})
+ it('rejects English and remote Hindi voices',()=>{setup();voices=[{lang:'en-US',localService:true},{lang:'hi-IN',localService:false}];render(<HindiPlayback text="निर्देश"/>);expect(screen.getByRole('status')).toHaveTextContent(/स्थानीय हिंदी आवाज़ उपलब्ध नहीं/);expect(synth.speak).not.toHaveBeenCalled()})
+ it('enables when a local Hindi voice arrives and supports stop and speech errors',()=>{setup();render(<HindiPlayback text="काल्पनिक निर्देश"/>);expect(screen.queryByRole('button',{name:'निर्देश सुनें'})).not.toBeInTheDocument();voices=[{lang:'hi-IN',localService:true}];act(()=>voicesChanged());fireEvent.click(screen.getByRole('button',{name:'निर्देश सुनें'}));expect(utterances[0].text).toBe('काल्पनिक निर्देश');expect(utterances[0].voice).toBe(voices[0]);act(()=>utterances[0].onstart());fireEvent.click(screen.getByRole('button',{name:'आवाज़ रोकें'}));expect(synth.cancel).toHaveBeenCalled();fireEvent.click(screen.getByRole('button',{name:'निर्देश सुनें'}));act(()=>utterances.at(-1).onerror());expect(screen.getByText(/लिखित निर्देश नीचे उपलब्ध हैं/)).toBeInTheDocument();expect(utterances.at(-1).text).toBe('काल्पनिक निर्देश')})
+ it('selects only a local English voice for English content and reports it in English',()=>{setup();localStorage.setItem('group1-ui-language','en');voices=[{lang:'hi-IN',localService:true},{lang:'en-US',localService:false}];render(<LanguageProvider><HindiPlayback text="Use the reviewed method" contentLanguage="en"/></LanguageProvider>);expect(screen.getByRole('status')).toHaveTextContent(/local English voice is unavailable/);expect(synth.speak).not.toHaveBeenCalled();voices=[{lang:'en-GB',localService:true}];act(()=>voicesChanged());fireEvent.click(screen.getByRole('button',{name:'Listen to instructions'}));expect(utterances[0].voice).toBe(voices[0]);expect(utterances[0].lang).toBe('en-GB')})
+ it('ignores callbacks from a cancelled utterance after content language changes',()=>{setup();voices=[{lang:'hi-IN',localService:true},{lang:'en-US',localService:true}];const view=render(<HindiPlayback text="Hindi text" contentLanguage="hi"/>);fireEvent.click(screen.getByRole('button',{name:'निर्देश सुनें'}));const old=utterances[0];view.rerender(<HindiPlayback text="English text" contentLanguage="en"/>);act(()=>old.onend());expect(screen.queryByText('निर्देश सुनाना पूरा हुआ।')).not.toBeInTheDocument();expect(synth.cancel).toHaveBeenCalled()})
+})

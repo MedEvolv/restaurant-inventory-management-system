@@ -1,70 +1,78 @@
-# Verification — 28 September 2026
+# Verification — reviewed local release, 29 September 2026
 
-Local repository: `C:\ArchLife-Systems\group1-prep-purchase`; branch `codex/group1-prep-purchase`. Upstream history retained, working baseline commit `0f5d3c0`. Use `git rev-parse HEAD` for the completed adaptation commit. No remote push or deployment occurred.
+The approved persona-aligned calendar and bilingual guidance redesign is implemented in the local demo at http://127.0.0.1:3016. GPT-6 Luna implemented the packets, GPT-6 Sol independently reviewed source and checks, and root verified browser workflows, migration/recovery and integration. This record replaces the earlier V6/V8 release counts; those checks were historical increments.
 
-Runtime verified: Java 21.0.12.1, Node 24.11.0, Maven wrapper/Maven 3.9.6, MySQL 8.4.11, Vite 8.3.1. MySQL runs in an isolated portable data directory on port 3316. No production database or other project's runtime was changed. **No LLM API is required or called.**
+No LLM API is required or called. No interview, actual kitchen observation, physical-device trial or measured savings/adoption result has been recorded. This is a fictional local demonstration, not a hosted pilot.
 
-## Checks
+## Current acceptance
 
-| Check | Result / evidence |
+| Check | Actual result and practical coverage |
 |---|---|
-| Backend tests, `mvnw.cmd -q test` | **19 passed**, zero failures/errors: 5 stock HTTP tests, 4 planning HTTP tests, 4 workflow HTTP tests, 1 reset HTTP test, 2 exact-unit tests, 3 inherited service tests. HTTP tests run against actual `prep_test` MySQL, not H2. Surefire XML is under `backend/target/surefire-reports/`. |
-| Frontend tests, `npm run test -- --run` | **3 passed**: receipt payload/form behavior, transient gateway read retry, no automatic write retry. |
-| Browser tests, `npm run test:e2e` | **4 passed**, zero failures. Two behaviors are exercised in laptop Chromium and phone/touch Chromium emulation: full demo including edited-note persistence, and recipe/portion/settings editing with plan removal. Both checks verified no page overflow; the full demo also asserted zero browser page errors. |
-| Lint, `npm run lint` | Passed. New screens, app entry and original App are checked. |
-| Production frontend, `npm run build` | Passed. Final assets compile successfully. |
-| Dependency audit, `npm audit --audit-level=low` | **0 vulnerabilities** in the npm audit. This is an npm dependency check, not a full security audit of the backend or deployment. |
-| Backend package | Passed after tests. Packaged JAR started successfully in the local profile. |
-| Empty-schema migrations | **Six migrations passed** from an empty `prep_clean_v6_validation` MySQL schema; inventory served as empty. With reset disabled, `POST /api/prep/demo/reset` returned **403**. |
-| Existing-schema preservation | Imported baseline ingredient ID 1 retained 18 kg; its received 11 kg order ID 1 remained RECEIVED; both original audit rows remained; opening lot retained 18,000 g. Migrations V1–V6 applied additively. |
-| App restart persistence | Parsed JSON for ingredients/lots, saved draft and snapshot, edited notes and movement history matched before/after an app stop/start. MySQL was retained. |
-| Run/reset helpers | `start-local.ps1`, `stop-local.ps1` and `reset-demo.ps1` exercised on the prepared checkout. |
-| Optional Docker path | `docker compose config --quiet` passed. Docker engine execution was unavailable; portable MySQL is the runtime that was actually exercised. |
+| Backend | **39 tests, zero failures/errors**, independently run by Sol using cached Maven and actual MySQL `prep_test`. Covers the existing stock/planning/draft/receipt/waste operations, guidance publication/media/questions, bilingual reviewed-language contracts, V9 calendar and strict meal times. |
+| Frontend | **33 tests in 9 files, all passed**, independent Sol run after the two browser-discovered corrections. Includes date/language races, dirty guidance preservation, new and legacy portions, meal grouping, focused editor, purchase-save unmount cleanup, and refreshed Questions entry. |
+| Lint and production build | Passed independently with **zero lint errors/warnings** and a successful production build on the final application source. |
+| Laptop and phone browsers | **All 8 current cases passed on isolated localhost:3017**. Four kitchen cases and two calendar cases passed in the main run. The two guidance cases passed in a separate final run after fixing stale question-list refresh: 19.3 seconds, expected 2, unexpected/skipped/flaky 0. This is an aggregate acceptance, not a claim that the earlier main HTML report contains eight green results. |
+| Fresh schema | Actual packaged backend started on a separate empty database; **V1–V9**, seven empty calendar days, default meal times and reset-disabled **403** passed. |
+| Actual restart and dump restore | Exact snapshot survived an app stop/start and import into a different database followed by restart. Includes bilingual publications/fallbacks, distinct unpublished draft, assigned meals and UNASSIGNED 120 portions, saved times, local question, quantities/estimates and original photo bytes. |
+| V8→V9 preserved data | Both isolated and live checks passed: original plan columns and legacy quantities; guidance documents/publications/photos; stock; saved purchase drafts and original V8 estimate fingerprints. Eighteen table checksums are unchanged. Two existing expiry-history tables preserve every old row and append only the identified startup warning plus a zero-quantity history event. |
+| Live activation | Reviewed application/test delta copied into the original checkout with original/source SHA guards and backup. Offline packaging succeeded; backend/frontend restarted; MySQL data directory retained. Frontend HTTP 200, seven-day calendar and Today defaults passed on live3016/8086/3316. |
+| Live UI smoke | Root used the actual in-app browser on3016: English labels, preference after reload, seven-day manager calendar, three meal times and Add Lunch native portions options 30–100 by10/default50. The form was canceled. No live fixture was reset, assigned or otherwise edited during this final smoke. |
+| Visual review | Root inspected final laptop and phone guidance screenshots and the live calendar. Browser workflows assert no horizontal page overflow; the full kitchen/guidance cases also check browser errors. These are Chromium emulations, not physical iPhone/Safari certification. |
 
-## Acceptance mapping
+The browser checks exercise real Save/reload operations on the isolated database, including explicit native meal-time changes, a new 100-portion plan and API-seeded legacy120→80→120→50 editing. Other retained operations include recipe CRUD/archive, overrides, immutable purchase snapshots, partial actual arrivals, selected-lot waste, notes and history.
 
-All quantities below are fictional. Routes share the prefix `/api/prep`.
+Two meaningful faults were found by actual browser workflows and fixed before acceptance: saving a purchase draft could leave navigation busy after its panel unmounted; a preserved Guides panel could show an old question queue after a staff submission. Both corrections have regression coverage. Test-selector/fixture adaptations did not replace those fixes or use a reload workaround.
 
-The six plan gates are complete: upstream baseline; dated stock ledger; recipes/estimates; draft/actual receipt separation; waste and editable guidance; full demo/setup/verification. All seven supplied acceptance criteria are satisfied within the local MVP scope. Production hosting, actual-device checks and real kitchen evidence remain outside this release, as stated below.
+## Contracts verified
 
-| Criterion | Screen / API | Behavior and verification |
-|---|---|---|
-| 1. Ingredient and receipt | Stock & dates; GET/POST `/ingredients`, GET `/ingredients/{id}`, POST `/receipts` | Create/select ingredient, compatible units, separate lots, cost per received unit, optional supplier, received/date provenance and visible unknown date. StockApiTest plus browser receipt/reload checks. |
-| 2. Recipe and meal plan | Tomorrow's plan; GET/POST/PUT/DELETE `/recipes`, `/plans` | Ingredient quantity per serving; multiple dishes/date and portions; editing recipes/plans and removing plans recalculates. PlanningApiTest plus browser CRUD path. Recipe DELETE archives and rejects dishes still used by plans. |
-| 3. Order suggestion | Tomorrow's plan; GET `/estimate?date=…`, PUT `/planning-settings/{ingredientId}` | Required, physical, excluded, usable, zero/editable buffer, upward increment rounding and dish arithmetic. Exact unit normalization; incompatible dimensions and ledger precision/range are rejected. PlanningApiTest, UnitsTest and browser assertions. |
-| 4. Manager review | Plan draft form and Purchase drafts; POST/GET `/drafts`, GET `/drafts/{id}`, POST `/receipts` with optional draftLineId | Editable override, immutable snapshot, stale flag and stale-save rejection; saving never mutates stock/sends an order; partial actual arrival and outstanding balance. WorkflowApiTest and full browser demo. |
-| 5. Waste/discrepancy | Waste & notes; POST `/removals`, GET `/history` | Six waste reasons and optional note; selected lot decremented once with author/time/history. Ordinary usage and count discrepancy are separate kinds. Repeated/concurrent requests and overdraw checked by WorkflowApiTest; audit-failure rollback by StockApiTest; browser spoilage path. |
-| 6. Trusted guidance | Waste & notes → Manager notes; GET/POST `/notes`, PUT `/notes/{id}` | Ingredient/dish handling and approved substitution notes; write/edit, last editor and edit time. Local authored text only. WorkflowApiTest verifies editing, same ID, preserved creation time and blank-text rejection; browser persistence check included. |
-| 7. Usable demo | Reset fictional kitchen UI; POST `/demo/reset`; `scripts/reset-demo.ps1` | Fictional rice/tomatoes/onions/paneer, two dishes, dated lots, unknown dates, low stock; explore and walkthrough modes. Repeatable reset preserves unregistered stock and refuses mixed sample/non-sample drafts. DemoApiTest and browser sequence. |
+| User requirement | Delivered behavior |
+|---|---|
+| Simple staff entry | Today → scheduled dish → exact current quantities, reviewed instructions/photo or explicit Missing/Needs review, with local escalation. |
+| Manager navigation | Plan meals, Guides, More; More exposes Ingredients & buying, Dishes, Stock, Purchases, Records. Secondary calculations, lot details, source/history and reset are initially closed. |
+| Weekly calendar | Seven days, previous/next/current week and direct date selection, empty dates, selected-date plan. This does not reserve stock across dates. |
+| Portions and meals | New plans default50 with30–100 by10. Out-of-range legacy quantities appear only for that existing plan. Old plans remain Needs a meal/UNASSIGNED until explicitly edited. Breakfast/Lunch/Dinner have date-specific times, default08:00/13:00/20:00. |
+| Bilingual content | Hindi/English interface preference persists. Manager-authored variants require explicit review; publication exposes only reviewed languages. Missing variant names the actual fallback language. No automatic translation. |
+| Focused guides | List → New/Open, short essential fields, optional detail disclosures, separate Save and Publish. Unsaved bilingual edits survive language/workspace navigation with Resume. |
+| Trust and staleness | Published text/photo membership immutable; unpublished drafts stay private to the manager view. Recipe-context changes suppress old staff method/photos until deliberate reviewed republication. Serving count/schedule changes do not invalidate the method. |
+| Photos and questions | Validated JPEG/PNG bytes persist, caption/kind/demo provenance displayed, unavailable image has text fallback. Local questions retain identity and retry keys; manager queue refreshes on entry and records resolution. No external message is sent. |
+| Optional playback | Device-local voice must match the actual guidance language. Tested capability/delayed-voice/stop/replay/cancellation behavior; readable fallback remains. Actual voice availability and usefulness in a noisy kitchen are unverified. |
+| Existing purchasing/stock | Decimal compatible-unit calculations, separate receipt lots/cost/date provenance, overrides, stale snapshots, partial arrivals, atomic selected-lot usage/waste/count decreases, editable notes and movement history remain. |
 
-## Arithmetic checked in the live browser
+The retained live29September fixture intentionally has two120-portion dishes under Needs a meal. Their portions and stock arithmetic were preserved. A presenter can explicitly assign meals through Edit; the migration did not guess them. See DEMO_SCRIPT.md for the current tour and100-portion purchasing example.
 
-| Stage | Tomatoes physical / excluded / usable | Requirement / suggested |
-|---|---|---|
-| Two receipts: 7 kg future-date + 3 kg date-passed | 10 / 3 / 7 kg | 120 portions of each dish: 18 / 11 kg |
-| Override 12 kg and save draft | 10 / 3 / 7 kg | Stock unchanged; saved quantity 12, original suggestion 11 |
-| Actual arrival 11 kg against draft | 21 / 3 / 18 kg | 18 / 0 kg; 1 kg draft balance outstanding |
-| Spoiled removal 3 kg from original usable lot | 18 / 3 / 15 kg | 18 / 3 kg |
+## Source, runtime and evidence
 
-API tests also cover 100 g/0.05 kg mixed-unit aggregation, fractional count rejection, incompatible volume/mass, negative quantity, invalid portions, equality of a label date and meal date, unknown date inclusion with review, recipe editing, buffer 0.1 kg, upward increment rounding, duplicate receipt/removal keys, conflicting retries, competing stock removals, and rollback after forced audit failure.
+Actual checkout: `C:\ArchLife-Systems\group1-prep-purchase`, branch `codex/group1-prep-purchase`. Source mirror: `C:\Users\ishaa\edocsil-cas\01_Projects\PM Group 1 Capstone Project\prototypes\prep-purchase-src`. Management/audits/scripts: sibling `guidance-phase2-management-20260928`.
 
-## Screenshots
+The accepted application/test candidate has **32 files** (10 new,22 changed), recorded in `reviewed-ux-code-candidate-20260929.json`. Four release documents are reviewed/copied separately. Runtime/build/dependency directories are excluded from source integration. No commit, remote push or production deployment was performed for this increment.
 
-Captured from the actual browser workflow after each asserted state. Laptop: 1365 × 900 viewport. Phone: Chromium emulation of iPhone 13 dimensions; these are browser checks, not a physical iPhone/Safari certification.
+Live: frontend3016/backend8086/MySQL3316, database `prep_demo`. Isolated browser validation:3017/8087/3317, database `prep_ui_revamp_20260928`. The three current browser files refuse any base URL other than3017. Use the prepared isolated Playwright configuration in README; do not run reset fixtures against the live presentation database.
 
-- [Laptop stock and separate lots](screenshots/laptop-05-stock.png)
-- [Laptop plan and arithmetic](screenshots/laptop-01-plan.png)
-- [Laptop purchase draft](screenshots/laptop-04-draft.png)
-- [Laptop manager guidance](screenshots/laptop-02-guidance.png)
-- [Laptop movement history](screenshots/laptop-03-history.png)
-- [Phone stock and separate lots](screenshots/phone-05-stock.png)
-- [Phone plan and arithmetic](screenshots/phone-01-plan.png)
-- [Phone purchase draft](screenshots/phone-04-draft.png)
-- [Phone manager guidance](screenshots/phone-02-guidance.png)
-- [Phone movement history](screenshots/phone-03-history.png)
+The current release used Java21.0.12.1, Node24.11.0, cached Maven3.9.6 and portable MySQL8.4.11. Backend tests/package used offline Maven `-q -o` with `-Dmaven.repo.local=C:\Users\ishaa\.m2\repository`; see the prepared-machine command in README. The SHA-guarded activation helper actually packaged/restarted this release. Generic `start-local.ps1`, `stop-local.ps1`, `reset-demo.ps1` were exercised for the earlier V6 release, **not newly rerun for V9**. Optional Docker configuration was validated historically; Docker engine execution was unavailable.
 
-## Limits
+Evidence paths below are relative to the mirror unless the management directory is named:
 
-Local fictional single-manager demo; no server authentication/roles, production hosting, physical-device/Safari verification or real kitchen research/impact measurement. Date review is a planning convention, not a safety conclusion. Original `Double` fields serve only as compatibility mirrors; decimal lots drive the new workflow. Original legacy writes return 409 and their old orders are historical. Count adjustments support decreases only. UI shows recent 200 movements/notes and 100 drafts; the database retains full history. Flyway 9.22.3 warns that MySQL 8.4 is newer than its tested compatibility range; all stated migration/HTTP checks passed on 8.4.11. Update and revalidate that dependency before a hosted pilot.
+- `.runtime/ux-validation/preservation-after-live.json` and `whole-upgrade-live.json`: final live comparison before any intentional fixture edits.
+- `.runtime/ux-validation/latest-live-preintegration-backup.json`: latest pre-integration backup, captured2026-09-29T02:51:43UTC; all163 original source baseline hashes verified; dump15,091,119 bytes, SHA256 `683b1bb00df7f00bb8c48061cc7e5f851bce3a4680d0d2ba1023ebe05ee02a5a`.
+- `.runtime/ux-validation/latest-recovery-evidence.json`: fresh/restart/restore proof for frozen backend JAR SHA256 `d868eada8ebdd0225b1665ae1cf31421812c27fbe3a32fa0acd957018dfa1f93`. Recovery dump20,120,515 bytes, SHA256 `16b61ecc6d2b002dee26fafefdbfa4e6b43426c5de2c8f6beb69b1d24456baab`.
+- `.runtime/reviewed-source-backup-20260929T033610Z`: original application source backup for integration.
+- `frontend/.runtime/ux-validation/playwright-report/`: main run; six passed and the two question-queue failures subsequently corrected.
+- `frontend/.runtime/ux-validation/guidance-final-results.json`: final two guidance passes on the corrected source,19.3 seconds.
+- `frontend/.runtime/ux-validation/test-results/`: main-run kitchen screenshots/traces; retained unchanged rather than relabelled as a single eight-pass report.
 
-Attribution: RestaurantIQ, MIT, **Copyright (c) 2026 Balakrishna Kini**. Full original LICENSE retained. RIMS was inspected only as reference; no RIMS source or yield formula is copied. See ATTRIBUTION.md and PRODUCT_DECISIONS.md.
+Actual final guidance images from the accepted isolated workflow:
+
+- [Laptop guidance](<C:/Users/ishaa/edocsil-cas/01_Projects/PM Group 1 Capstone Project/prototypes/prep-purchase-src/frontend/.runtime/ux-validation/guidance-final-results/guidance-staff-and-manager-b2d14-lished-guidance-review-loop-laptop/laptop-published-guidance.png>)
+- [Phone guidance](<C:/Users/ishaa/edocsil-cas/01_Projects/PM Group 1 Capstone Project/prototypes/prep-purchase-src/frontend/.runtime/ux-validation/guidance-final-results/guidance-staff-and-manager-b2d14-lished-guidance-review-loop-phone/phone-published-guidance.png>)
+
+Backend/recovery proofs were reused after frontend work because the accepted backend source stayed frozen. Frontend tests/lint/build ran after the actual corrections. Only the affected guidance browser cases were repeated; document-only copying requires no application rebuild or test rerun.
+
+## Practical limits
+
+Staff/manager navigation is not authenticated access. Shared real use needs server permissions, deployment/data controls, kitchen-owner review of real instructions, physical-device observation and the protected pilot. AI sample photos are fictional illustrations. Label-date handling is a transparent planning convention, not a food-safety determination; unknown dates remain usable recorded stock with a review flag.
+
+Prepared curries/sauces/chutneys and their policy-dependent shorter expiries, chronological reservation, automated EatByDate ingestion, microphone/STT and a conversational LLM remain later work. EatByDate is a reference, not an integrated expiry authority. Scheduling counts dish entries and dish portions, not unique diners.
+
+Existing limitations: count adjustment supports decreases only; UI lists recent200 movements/notes and100 drafts while the database retains full history. Legacy Double fields are compatibility mirrors; decimal lots drive the workflow. Flyway9.22.3 warns MySQL8.4 is newer than its tested range; stated migration/API checks passed on8.4.11, with dependency revalidation required before hosting. No new vulnerability audit or hosted security certification is claimed.
+
+Attribution: RestaurantIQ, MIT, Copyright (c)2026 Balakrishna Kini. Original LICENSE and upstream history retained; see ATTRIBUTION.md and PRODUCT_DECISIONS.md.
