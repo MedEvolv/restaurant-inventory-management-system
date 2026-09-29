@@ -8,7 +8,7 @@ Adapted from [RestaurantIQ](https://github.com/Balakrishna-kini/restaurant-inven
 
 ## Repository and product documentation
 
-[GitHub build branch](https://github.com/MedEvolv/restaurant-inventory-management-system/tree/codex/group1-prep-purchase) · [Product documentation](docs/product/README.md) · [Current release](docs/product/CURRENT_RELEASE.md). Source release commit: `4d0962f`.
+[GitHub build branch](https://github.com/MedEvolv/restaurant-inventory-management-system/tree/codex/group1-prep-purchase) · [Product documentation](docs/product/README.md) · [Current release](docs/product/CURRENT_RELEASE.md) · [Accepted Kitchen Saathi next-increment contract](docs/product/KITCHEN_SAATHI_DESIGN.md). Source release commit `4d0962f` is the prior application release; the current UI increment is on the latest existing branch state.
 
 ## Local demo
 
@@ -156,3 +156,6 @@ Server authentication and staff/manager permissions are **not implemented**. Sha
 ## Expanded demo recipe catalog
 
 [30 additional Hindi/English vegetarian recipes](assets/DEMO_RECIPES.md) cover breakfasts, mains, sides, raitas, chutney and desserts. The live database has32 active recipes. A standard-library Python importer adds missing recipes/ingredients through the existing API without replacing records or creating stock. See the catalog guide for preview/apply commands, backup requirements and exact verification. These are illustrative per-portion quantities requiring kitchen review, not published cooking instructions.
+
+
+Kitchen Saathi is implemented and locally verified in the current checkout, including the four manager cards, weekday selector/reset, no-save 350-portion preview, phone navigation and read-only preservation of all seven API snapshots. `npm ci` completed with 348 packages. Remote publication remains pending. See [the design contract](docs/product/KITCHEN_SAATHI_DESIGN.md) and [verification](VERIFICATION.md).

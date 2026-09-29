@@ -19,7 +19,7 @@ test('staff and manager complete the published guidance review loop',async({page
     expect(dish.quantities[0].required).toBe('0.375')
     expect(await api('get',`/api/prep/guidance/published?recipeId=${recipeId}`,undefined,200)).toHaveLength(0)
 
-    await page.goto('/');await page.getByRole('button',{name:'English',exact:true}).click();await page.getByRole('button',{name:'Manager workspace'}).click();await page.getByRole('button',{name:'Guides',exact:true}).click()
+    await page.goto('/');await page.getByRole('button',{name:'English',exact:true}).click();await page.getByLabel('Operating view').selectOption('manager');await page.getByRole('button',{name:'Guides',exact:true}).click()
     await page.getByRole('button',{name:'New guide',exact:true}).click();await page.getByRole('combobox',{name:'Recipe',exact:true}).selectOption(String(recipeId))
     await page.getByLabel('Hindi document title (required)').fill('काल्पनिक तैयारी मार्गदर्शन')
     await page.getByLabel('Responsible person').fill('डेमो रसोई प्रमुख')
@@ -40,12 +40,12 @@ test('staff and manager complete the published guidance review loop',async({page
     await page.getByRole('button',{name:'Publish reviewed guidance'}).click();await expect(page.getByRole('status')).toContainText('Reviewed guidance published.')
     const published=(await api('get',`/api/prep/guidance/published?recipeId=${recipeId}`,undefined,200))[0];expect(published.method).toContain('रसोई प्रमुख से विधि की पुष्टि');expect(published.photos).toHaveLength(1)
 
-    await page.getByRole('button',{name:'Staff view'}).click();await page.getByRole('button',{name:new RegExp(recipeName)}).click()
+    await page.getByLabel('Operating view').selectOption('staff');await page.getByRole('button',{name:new RegExp(recipeName)}).click()
     await expect(page.locator('.published-guidance')).toContainText('The published Hindi content is shown below; it has not been translated.')
     await expect(page.locator('.published-guidance')).toContainText('काल्पनिक उदाहरण: रसोई प्रमुख से विधि की पुष्टि करें।')
     await page.getByRole('button',{name:'हिन्दी',exact:true}).click();await page.getByRole('button',{name:'English',exact:true}).click()
     await expect(page.locator('.published-guidance')).toContainText('Hindi · Reviewed languages available: Hindi')
-    await page.getByRole('button',{name:'Manager workspace'}).click();await page.getByRole('button',{name:'Guides',exact:true}).click()
+    await page.getByLabel('Operating view').selectOption('manager');await page.getByRole('button',{name:'Guides',exact:true}).click()
     await openGuide(page,recipeName)
     await page.getByRole('tab',{name:'English content'}).click();await page.getByLabel('English title').fill('Reviewed English demo guidance')
     await page.getByLabel('Method / ordered instructions').fill('Demo only: ask the kitchen lead to confirm the method.')
@@ -56,7 +56,7 @@ test('staff and manager complete the published guidance review loop',async({page
     await page.getByRole('button',{name:'Publish reviewed guidance'}).click();await expect(page.getByRole('status')).toContainText('Reviewed guidance published.')
     const bothPublished=(await api('get',`/api/prep/guidance/published?recipeId=${recipeId}`,undefined,200))[0];expect(bothPublished.availableLanguages).toContain('hi');expect(bothPublished.availableLanguages).toContain('en')
 
-    await page.getByRole('button',{name:'Staff view'}).click();await expect(page.getByLabel('Work date')).toHaveValue(today);await page.getByRole('button',{name:new RegExp(recipeName)}).click()
+    await page.getByLabel('Operating view').selectOption('staff');await expect(page.getByLabel('Work date')).toHaveValue(today);await page.getByRole('button',{name:new RegExp(recipeName)}).click()
     await expect(page.locator('.today-panel').getByText('Reviewed English demo guidance',{exact:true})).toBeVisible();await expect(page.locator('.today-panel').getByText('Demo only: ask the kitchen lead to confirm the method.',{exact:true})).toBeVisible();await expect(page.locator('.today-panel').getByText('Fictional demo content',{exact:true})).toBeVisible();await expect(page.locator('.today-panel').getByText(/version 3/)).toBeVisible();await expect(page.locator('.today-panel').getByText(/fixed total 0.375 kg/)).toBeVisible();await expect(page.locator('.today-panel').getByText('AI-generated fictional portion example',{exact:true})).toBeVisible()
     await expect.poll(()=>page.locator('.today-panel .guidance-photo img').evaluate(img=>img.naturalWidth)).toBeGreaterThan(0)
     await page.setViewportSize(testInfo.project.name==='phone'?{width:390,height:844}:{width:1440,height:960})
@@ -65,11 +65,11 @@ test('staff and manager complete the published guidance review loop',async({page
 
     await page.getByRole('button',{name:'Ask manager',exact:true}).click();await page.getByLabel('Your question').fill('कृपया यह काल्पनिक विधि स्पष्ट करें।');await page.getByLabel('Name').fill('डेमो कर्मचारी');await page.getByRole('button',{name:'Submit question'}).click();await expect(page.locator('form').filter({has:page.getByLabel('Your question')}).getByRole('status')).toContainText('No notification was sent')
     const queue=await api('get','/api/prep/escalations',undefined,200);const ownQuestion=queue.find(q=>q.recipeId===recipeId&&q.question==='कृपया यह काल्पनिक विधि स्पष्ट करें।');expect(ownQuestion).toBeTruthy()
-    await page.getByRole('button',{name:'Manager workspace'}).click();await page.getByRole('button',{name:'Guides',exact:true}).click();await page.getByRole('tab',{name:'Questions',exact:true}).click();const questionRow=page.locator('.compact-row').filter({hasText:recipeName}).filter({hasText:ownQuestion.question});await expect(questionRow).toBeVisible();await questionRow.getByLabel('Resolution note').fill('काल्पनिक डेमो समाधान: जिम्मेदार व्यक्ति से पूछें।');await questionRow.getByRole('button',{name:'Record resolution'}).click();await expect(questionRow.getByText('काल्पनिक डेमो समाधान: जिम्मेदार व्यक्ति से पूछें।')).toBeVisible()
+    await page.getByLabel('Operating view').selectOption('manager');await page.getByRole('button',{name:'Guides',exact:true}).click();await page.getByRole('tab',{name:'Questions',exact:true}).click();const questionRow=page.locator('.compact-row').filter({hasText:recipeName}).filter({hasText:ownQuestion.question});await expect(questionRow).toBeVisible();await questionRow.getByLabel('Resolution note').fill('काल्पनिक डेमो समाधान: जिम्मेदार व्यक्ति से पूछें।');await questionRow.getByRole('button',{name:'Record resolution'}).click();await expect(questionRow.getByText('काल्पनिक डेमो समाधान: जिम्मेदार व्यक्ति से पूछें।')).toBeVisible()
 
     await openGuide(page,recipeName);await page.getByRole('tab',{name:'English content'}).click();await page.getByLabel('English title').fill('Unpublished English title');await page.getByRole('button',{name:'Save draft'}).click();await expect(page.getByRole('status')).toContainText('Draft saved')
     const currentDoc=(await api('get','/api/prep/guidance',undefined,200)).find(doc=>doc.recipeId===recipeId);expect(currentDoc.draft.translations.en.title).toBe('Unpublished English title');expect(currentDoc.published.languageContents.en.title).toBe('Reviewed English demo guidance');expect(currentDoc.published.title).toBe('काल्पनिक तैयारी मार्गदर्शन')
-    await page.getByRole('button',{name:'Staff view'}).click();await page.getByRole('button',{name:new RegExp(recipeName)}).click();await expect(page.locator('.today-panel').getByText('Reviewed English demo guidance',{exact:true})).toBeVisible();await expect(page.locator('.today-panel').getByText('Unpublished English title')).toHaveCount(0)
+    await page.getByLabel('Operating view').selectOption('staff');await page.getByRole('button',{name:new RegExp(recipeName)}).click();await expect(page.locator('.today-panel').getByText('Reviewed English demo guidance',{exact:true})).toBeVisible();await expect(page.locator('.today-panel').getByText('Unpublished English title')).toHaveCount(0)
 
     await api('put',`/api/prep/recipes/${recipeId}`,{name:recipeName,ingredients:[{ingredientId,quantity:'0.250',unit:'kg'}]},200)
     await page.getByLabel('Work date').fill('2099-01-01').then(()=>page.getByLabel('Work date').fill(today));await page.getByRole('button',{name:new RegExp(recipeName)}).click();await expect(page.getByText(/recipe changed/i)).toBeVisible();await expect(page.locator('.today-panel').getByText('काल्पनिक उदाहरण: रसोई प्रमुख से विधि की पुष्टि करें।')).toHaveCount(0);await expect(page.locator('.today-panel').getByText('Demo only: ask the kitchen lead to confirm the method.')).toHaveCount(0);await expect(page.locator('.today-panel .guidance-photo img')).toHaveCount(0)

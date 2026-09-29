@@ -60,3 +60,7 @@ For a small usability test, record start/end time for the plan-to-draft decision
 ## Published demo source
 
 [Build branch](https://github.com/MedEvolv/restaurant-inventory-management-system/tree/codex/group1-prep-purchase); source release4d0962f. Use the current tour above, not historical navigation. Product roadmap and evidence are in [docs/product](docs/product/README.md). GitHub publishing does not host the local application.
+
+## Kitchen Saathi local verification
+
+Kitchen Saathi is implemented and locally verified in the current checkout. The Cook/Manager bento, weekday selector/reset, four manager metrics, 350/custom portions and no-save exact-decimal preview are present. Live read-only checks passed for phone navigation and all seven API snapshots remained unchanged. These are local engineering checks; user research and field validation remain open. Remote publication is pending. See [the current release](docs/product/CURRENT_RELEASE.md) and [verification](VERIFICATION.md).

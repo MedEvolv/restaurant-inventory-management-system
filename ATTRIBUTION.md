@@ -15,3 +15,7 @@ Presentation credit line: “Built by Group 1 as an adaptation of RestaurantIQ b
 ## Published guidance and calendar increment
 
 Group1 also added versioned draft/publication guidance, persistent captioned demo photos, local questions, explicit reviewed Hindi/English variants, local matching-voice playback and V9 meal calendar/times with legacy-plan preservation. Original MIT notices remain unchanged. Authored product documentation is under docs/product; external course/source material and real interview records are not bundled.
+
+## Kitchen Saathi UI dependencies
+
+The current UI increment adds `@tailwindcss/vite` 4.3.0 (MIT, Tailwind Labs, Inc.), `lucide-react` 1.48.0 (ISC, Lucide Icons and Contributors), and `@fontsource-variable/inter` 5.3.0 (SIL Open Font License 1.1, The Inter Project Authors). The package versions are recorded in `frontend/package-lock.json`; the upstream license files remain with each installed package. No dependency is added to the application backend.

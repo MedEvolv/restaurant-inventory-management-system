@@ -1,7 +1,7 @@
 import { test,expect } from '@playwright/test'
 import path from 'node:path'
 test.beforeEach(({},testInfo)=>expect(testInfo.project.use.baseURL).toBe('http://127.0.0.1:3017'))
-async function managerView(page){await page.getByRole('button',{name:'English',exact:true}).click();await page.getByRole('button',{name:'Manager workspace',exact:true}).click()}
+async function managerView(page){await page.getByRole('button',{name:'English',exact:true}).click();await page.getByLabel('Operating view').selectOption('manager')}
 async function restoreDate(page,date){await managerView(page);await page.getByRole('button',{name:'Plan meals',exact:true}).click();await page.getByLabel('Choose date',{exact:true}).fill(date)}
 async function moreView(page,name){await page.getByRole('button',{name:'More',exact:true}).click();await page.getByRole('button',{name,exact:true}).click()}
 async function resetKitchen(page,mode='explore'){await page.getByRole('button',{name:'English',exact:true}).click();await moreView(page,'Ingredients & buying');await page.getByText('Demo tools',{exact:true}).click();await page.getByRole('button',{name:'Reset fictional kitchen',exact:true}).click();await page.getByLabel('Starting point').selectOption(mode);await page.getByLabel('Type RESET FICTIONAL KITCHEN').fill('RESET FICTIONAL KITCHEN');await page.getByRole('button',{name:'Reseed sample data'}).click();await expect(page.locator('main > [role="status"]')).toContainText('Fictional kitchen reset')}
@@ -61,7 +61,7 @@ test('manager creates and edits a recipe, preserves legacy covers, changes purch
   const planned=page.locator('.planned-dish').filter({hasText:'Browser test dish'})
   await planned.getByRole('button',{name:'Edit',exact:true}).click()
   const portions=page.getByLabel('Portions / covers');await expect(portions).toHaveValue('120')
-  expect(await portions.locator('option').evaluateAll(options=>options.map(option=>option.value))).toEqual(['30','40','50','60','70','80','90','100','120'])
+  expect(await portions.locator('option').evaluateAll(options=>options.map(option=>option.value))).toEqual(['custom','30','40','50','60','70','80','90','100','120'])
   await portions.selectOption('80');await portions.selectOption('120');await page.getByRole('combobox',{name:'Meal',exact:true}).selectOption('DINNER');await page.getByRole('button',{name:'Save planned dish',exact:true}).click()
   await moreView(page,'Ingredients & buying');const row=page.getByTestId('estimate-Tomatoes');await expect(row.getByTestId('required')).toHaveText('19.2')
   await page.getByRole('button',{name:'Plan meals',exact:true}).click();await planned.getByRole('button',{name:'Edit',exact:true}).click();await portions.selectOption('50');await page.getByRole('button',{name:'Save planned dish',exact:true}).click();await moreView(page,'Ingredients & buying');await expect(row.getByTestId('required')).toHaveText('18.5')

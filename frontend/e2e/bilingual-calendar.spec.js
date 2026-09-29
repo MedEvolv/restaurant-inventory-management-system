@@ -14,11 +14,11 @@ test('calendar and language retain exact new portions, legacy quantity, meal tim
     ingredientId=(await api('post','/api/prep/ingredients',{name:ingredientName,unit:'kg',isDemo:true},201)).id
     recipeId=(await api('post','/api/prep/recipes',{name:recipeName,ingredients:[{ingredientId,quantity:'0.125',unit:'kg'}],isDemo:true},201)).id
     await api('post','/api/prep/plans',{recipeId,date,portions:120},201)
-    await page.goto('/');await page.getByRole('button',{name:'English',exact:true}).click();await page.getByRole('button',{name:'Manager workspace'}).click()
+    await page.goto('/');await page.getByRole('button',{name:'English',exact:true}).click();await page.getByLabel('Operating view').selectOption('manager')
     await page.getByLabel('Choose date').fill(date)
     const lunch=page.locator('.meal-card').filter({has:page.getByRole('heading',{name:'Lunch',exact:true})})
     await lunch.getByRole('button',{name:'Add dish',exact:true}).click()
-    const portions=page.getByLabel('Portions / covers');expect(await portions.locator('option').evaluateAll(options=>options.map(option=>option.value))).toEqual(['30','40','50','60','70','80','90','100'])
+    const portions=page.getByLabel('Portions / covers');expect(await portions.locator('option').evaluateAll(options=>options.map(option=>option.value))).toEqual(['custom','30','40','50','60','70','80','90','100'])
     await page.getByRole('combobox',{name:'Dish',exact:true}).selectOption(String(recipeId));await portions.selectOption('50');await page.getByRole('combobox',{name:'Meal',exact:true}).selectOption('LUNCH')
     await page.getByRole('button',{name:'Save planned dish',exact:true}).click();await expect(page.locator('main > [role="status"]')).toContainText('Meal plan saved')
     const savedDay=(await api('get',`/api/prep/calendar?start=${date}`,undefined,200)).days.find(day=>day.date===date)
@@ -26,9 +26,9 @@ test('calendar and language retain exact new portions, legacy quantity, meal tim
     const serveTime=savedDay.mealTimes.LUNCH==='12:45'?'12:46':'12:45'
     expect(newPlanId).toBeTruthy()
     const lunchCard=page.locator('.meal-card').filter({has:page.getByRole('heading',{name:'Lunch',exact:true})});await lunchCard.getByLabel(/Serving time.*Lunch/).fill(serveTime);await lunchCard.getByRole('button',{name:'Save time',exact:true}).click()
-    await expect(page.getByText(serveTime)).toBeVisible();await page.reload();await page.getByRole('button',{name:'Manager workspace'}).click();await page.getByRole('button',{name:'Plan meals',exact:true}).click();await page.getByLabel('Choose date').fill(date)
+    await expect(page.getByText(serveTime)).toBeVisible();await page.reload();await page.getByLabel('Operating view').selectOption('manager');await page.getByRole('button',{name:'Plan meals',exact:true}).click();await page.getByLabel('Choose date').fill(date)
     await expect(page.getByText(serveTime)).toBeVisible();await expect(page.getByText(recipeName,{exact:true})).toHaveCount(2)
-    await page.getByRole('button',{name:'Staff view'}).click();await page.getByLabel('Work date').fill(date)
+    await page.getByLabel('Operating view').selectOption('staff');await page.getByLabel('Work date').fill(date)
     for(const meal of ['Breakfast','Lunch','Dinner'])await expect(page.getByRole('heading',{name:meal,exact:true})).toBeVisible()
     await expect(page.getByText(`Serving time ${serveTime}`)).toBeVisible();await expect(page.getByText(new RegExp(`${recipeName}.*50 portions`))).toBeVisible();await expect(page.getByText(new RegExp(`${recipeName}.*120 portions`))).toBeVisible()
     const lunchDish=page.getByRole('button',{name:new RegExp(`${recipeName} 50 portions`)});await lunchDish.click();await expect(page.locator('.quantity-list')).toContainText('fixed total 6.25 kg');await page.getByRole('button',{name:'Back to dishes'}).click()

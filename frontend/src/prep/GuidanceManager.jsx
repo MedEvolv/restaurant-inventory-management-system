@@ -30,6 +30,7 @@ export default function GuidanceManager({api,onBusyChange}){
  function loadDraftState(d){const nextHi=cleanFields(d?.draft||blank),nextEn=cleanEnglish(d?.draft?.translations?.en);setFields(nextHi);setEnglish(nextEn);setClearEnglish(false);setReviewed(publishedLanguages(d?.published));setContentTab('hi')}
  function noticeMessage(key,values){setNotice({key,values})}
  function openQuestions(){setView('questions');loadOne('queue')}
+ useEffect(()=>{const handler=()=>{setView('questions');loadOne('queue')};window.addEventListener('prep:open-questions',handler);return()=>window.removeEventListener('prep:open-questions',handler)},[loadOne])
  function startNew(){if(busy||dirty)return;setDoc(null);loadDraftState(null);setRecipeId(String(activeRecipes[0]?.id||''));setRecipeSearch('');setPhoto({file:null,caption:'',kind:'PROCESS',isDemo:true});setNotice('');setView('editor')}
  async function edit(id){try{setBusy(true);const d=await api.get(`/guidance/${id}`);setDoc(d);loadDraftState(d);setRecipeId(String(d.recipeId));setPhoto({file:null,caption:'',kind:'PROCESS',isDemo:true});setNotice('');setView('editor')}catch(e){setNotice({raw:e.message})}finally{setBusy(false)}}
  function savePayload(){const payload={...cleanFields(fields),recipeId:Number(doc?.recipeId||recipeId),...(doc?{expectedVersion:doc.draftVersion}:{})};if(clearEnglish)payload.translations={en:null};else if(hasEnglish(english)||doc?.draft?.translations?.en)payload.translations={en:cleanEnglish(english)};return payload}

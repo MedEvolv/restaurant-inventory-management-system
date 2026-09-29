@@ -35,6 +35,7 @@ The user has requested a Hindi/English interface toggle **and separately reviewe
 | [Source register and course alignment](SOURCES_AND_COURSE_ALIGNMENT.md) | Which supplied materials informed each decision? |
 | [Kitchen MVP usability design report](Kitchen%20MVP%20Usability%20Design%20Report.docx) · [reading copy](design-report-preview/index.html) | Persona aligned simplification, official meez/Apicbase/Paprika interaction review, RestaurantIQ-inspired refinement criteria and proposed usability checks. The UI refinement is engineering-accepted; Word pagination remains unverified. |
 | [RestaurantIQ design reuse assessment](RESTAURANTIQ_DESIGN_REUSE.md) | Source patterns, local adaptations and constraints for the current bounded UI refinement. |
+| [Kitchen Saathi design contract](KITCHEN_SAATHI_DESIGN.md) | Implemented and locally verified Kitchen Saathi contract; remote publication pending. |
 
 ## Review decisions
 

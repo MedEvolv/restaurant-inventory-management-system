@@ -26,7 +26,7 @@ describe('planning action completion', () => {
     await user.click(openPlan)
     const portions = screen.getByLabelText('Portions / covers')
     expect(portions).toHaveValue('50')
-    expect([...portions.options].map(option => Number(option.value))).toEqual([30, 40, 50, 60, 70, 80, 90, 100])
+    expect([...portions.options].filter(option => option.value !== 'custom').map(option => Number(option.value))).toEqual([30, 40, 50, 60, 70, 80, 90, 100])
     await user.click(screen.getByRole('button', { name: 'Save planned dish', exact: true }))
     await waitFor(() => expect(estimateReads).toBe(2))
     expect(api.post).toHaveBeenCalledWith('/plans', { recipeId: 1, date, portions: 50, mealSlot: 'BREAKFAST' })
